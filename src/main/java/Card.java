@@ -1,36 +1,57 @@
+import java.util.Arrays;
+import java.util.List;
+
 public class Card {
 
-    private static String[] suit = {"Spades", "Clubs", "Hearts", "Diamonds"};
-    private static String[] symbol = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
-    private static int[] value = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+    private String suit;
+    private String symbol;
+    private int value ;
 
-    Card (String[] suit, String[] symbol, int[] value) {
+    Card (String suit, String symbol, int value) {
         this.suit = suit;
         this.symbol = symbol;
         this.value = value;
     }
 
-    public static String[] getSuit() {
+    public String getSuit() {
         return suit;
     }
 
-    public void setSuit(String[] suit) {
+    public void setSuit(String suit) {
         this.suit = suit;
     }
 
-    public static String[] getSymbol() {
+    public String getSymbol() {
         return symbol;
     }
 
-    public void setSymbol(String[] symbol) {
+    public void setSymbol(String symbol) {
         this.symbol = symbol;
     }
 
-    public static int[] getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(int[] value) {
+    public void setValue(int value) {
         this.value = value;
+    }
+
+    // method to return a list of suits that are valid for card objects
+    // static because does not need to have a card object to be called/used
+    public static List<String> getAllSuits(){
+        return Arrays.asList("Spades", "Clubs", "Hearts", "Diamonds");
+    }
+
+    // method to return a list of symbols that are valid for card objects
+    // static because does not need to have a card object to be called/used
+    public static List<String> getAllSymbols(){
+        return Arrays.asList("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
+    }
+
+    // method to return a list of symbols that are valid for card objects
+    // static because does not need to have a card object to be called/used
+    public static List<Integer> getAllValues(){
+        return Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13);
     }
 }
