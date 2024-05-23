@@ -10,6 +10,10 @@ public class Player {
     private int wallet = 500;
     private List<Card> currentHand;
 
+    public Player(String name) {
+        this.name = name;
+    }
+
     public String getName() {
         return name;
     }

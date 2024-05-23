@@ -8,7 +8,11 @@ public class BlackJackMain {
     public static void startGame() {
         Deck deck = new Deck();
         deck.shuffleDeck();
-        // run commands here:
+        // new instance of scanner here to grab users name
+        Player player = new Player("");
+
+
+        // run commands here: - where scanner stuff is to take and store input
         // 1. welcome player to the game
         // 2. ask them if they want to continue playing or quit
         // 3. If they continue to play then run the welcome screen + instructions on how to play
