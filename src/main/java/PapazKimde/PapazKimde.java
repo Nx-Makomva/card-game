@@ -3,7 +3,9 @@ package PapazKimde;
 import Deck.Deck;
 import Card.Card;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
@@ -14,15 +16,21 @@ public class PapazKimde {
     // variables
     private int numberOfPlayers;
     private Deck gameDeck;
+    private UserInteraction userInteraction;
+    private List<Player> players;
 
-    public PapazKimde(int numberOfPlayers, Player player1) {
+
+    public PapazKimde(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         this.gameDeck = new Deck();
+        this.userInteraction = new UserInteraction();
+        this.players = new ArrayList<>();
     }
 
     public PapazKimde() {
-        this.numberOfPlayers = 2;
         this.gameDeck = new Deck();
+        this.userInteraction = new UserInteraction();
+        this.players = new ArrayList<>();
     }
 
     public void remove3Kings() {
@@ -52,10 +60,36 @@ public class PapazKimde {
         this.gameDeck = playingDeck;
     }
 
+
+    public void handleCreationOfUsers() {
+        // player 1 is always a human
+        System.out.println("Enter name for player 1:");
+        String nameForPlayer1 = userInteraction.getUserInput();
+        players.add(new Player(nameForPlayer1, true));
+
+        // creating rest of players
+        for (int i = 2; i <= numberOfPlayers; i++) {
+            System.out.println("Is player " + i + " a human? (yes/no)");
+            boolean isHuman = userInteraction.isHumanPlayer();
+            String name;
+            if (isHuman) {
+                System.out.println("Enter name for player " + i + ":");
+                name = userInteraction.getUserInput();
+            } else {
+                name = "Computer" + i;
+            }
+            players.add(new Player(name, isHuman));
+        }
+    }
+
     public void playPapazKimde() {
         remove3Kings();
-        gameDeck.printDeck();
-
+        numberOfPlayers = userInteraction.howManyPlayers();
+        handleCreationOfUsers();
+        System.out.println("Players:");
+        for (Player player : players) {
+            System.out.println(player);
+        }
         // deal the whole deck to the players
         // > some sort of array list for each player = their 'hand'
 

@@ -5,12 +5,12 @@ public class Player {
     // variables
     protected String playerName;
     protected int playerScore ;
-    protected boolean isComputer;
+    protected boolean isHuman;
 
     // constructor
-    public Player(String playerName, boolean isComputer) {
+    public Player(String playerName, boolean isHuman) {
         this.playerName = playerName;
-        this.isComputer = isComputer;
+        this.isHuman = isHuman;
         this.playerScore = 0; // initialise to 0
     }
 
@@ -19,10 +19,6 @@ public class Player {
 
     // methods
 
-    // needs to check if computer or real player
-    public boolean isComputer() {
-        return false;
-    }
 
     // needs to take in name and set it
     // if computer then set name is 'computer[number])
@@ -33,5 +29,8 @@ public class Player {
 
     }
 
-
+    @Override
+    public String toString() {
+        return playerName;
+    }
 }
