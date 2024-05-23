@@ -1,8 +1,23 @@
 package PapazKimde;
 
+
 public class PapazKimde {
 
-    // get the whole deck, remove all kings but 1
+    // constants
+
+    // variables
+    private int numberOfPlayers;
+    private Player player1;
+//    private Deck gameDeck;
+
+    public PapazKimde(int numberOfPlayers, Player player1 ) {
+        this.numberOfPlayers = numberOfPlayers;
+        this.player1 = player1;
+    }
+
+    public PapazKimde() {
+    }
+// get the whole deck, remove all kings but 1
     // > get deck, remove 3 K's
     // shuffle deck
 
