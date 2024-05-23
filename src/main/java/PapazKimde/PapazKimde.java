@@ -82,6 +82,15 @@ public class PapazKimde {
         }
     }
 
+    public void deckDeal() {
+        // deal the whole deck to the players
+        // > some sort of array list for each player = their 'hand'
+
+    }
+
+
+
+
     public void playPapazKimde() {
         remove3Kings();
         numberOfPlayers = userInteraction.howManyPlayers();
@@ -90,19 +99,11 @@ public class PapazKimde {
         for (Player player : players) {
             System.out.println(player);
         }
-        // deal the whole deck to the players
-        // > some sort of array list for each player = their 'hand'
+        // initial pair check
 
-        // each player needs to go through their cards and remove any pairs
-        // go through each card in list, if there's match in list, then remove
-        // need to make sure it only removes pairs, not 3s
-
-        // mimic player 1 pulling random card from player 2's deck -> ask for user input
-        // "choose a card from player x's deck"
-        // print the number of cards player x has ?
-
-        // take in choice
-        // check if any pairs, if pairs, remove, if no pairs, next player turn (computer or player2)
+        ///// loop
+        // method of pulling card from other player
+        // method of check if any pairs, if pairs, remove, if no pairs, next player turn (computer or player2)
         // repeat
 
         // end game:
@@ -110,9 +111,7 @@ public class PapazKimde {
         // if more than two players: total number of players -1 reaches 0 cards in their list
         // can make list of who finishes first
 
-        // scoring: 2 player : winner = x points
-        // 2 or more : first x points, second x-5 etc etc..
-        // loser 0 points
+
     }
 
     // potential classes:
