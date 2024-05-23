@@ -1,4 +1,4 @@
-package BlackJack;
+package BlackJack.CommandRunner;
 
 import java.util.Scanner;
 
@@ -18,29 +18,24 @@ public CommandRunner(String[] commands, String name) {
 public void runCommands() {
     intro();
 
-    while (true) {
-        printIndexedCommands();
-        int userSelection = readUserInput(commands.length);
+    printIndexedCommands();
+    int userSelection = readUserInput(commands.length);
 
-        boolean moreCommands = handleUserSelection(userSelection);
+    handleUserSelection(userSelection);
 
-        if (!moreCommands) {
-            break;
-        }
     }
-}
+
 
 protected void intro() {
-    printMessage(String.format("\n How would you like to proceed with %s\n", name));
+    printMessage(String.format("\n How would you like to proceed with the %s\n", name));
 }
 
 
-protected abstract boolean handleUserSelection(int userSelection);
+protected abstract void handleUserSelection(int userSelection);
 
 protected int readUserInput(int limit) {
     printMessage(String.format("Please enter a number between 1 and %d:", limit));
 
-    while (true) {
         String input = scanner.nextLine();
 
         if (QUIT.equalsIgnoreCase(input.trim())) {
@@ -59,7 +54,8 @@ protected int readUserInput(int limit) {
         } catch (Exception e) {
             printMessage("Please enter a number between 1 and " + limit);
         }
-    }
+
+        return - 1;
 }
 
 protected void printIndexedCommands() {

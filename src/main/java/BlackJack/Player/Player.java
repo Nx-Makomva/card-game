@@ -1,4 +1,4 @@
-package BlackJack;
+package BlackJack.Player;
 
 import Card.Card;
 
