@@ -1,3 +1,5 @@
+package Card;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -7,7 +9,7 @@ public class Card {
     private String symbol;
     private int value ;
 
-    Card (String suit, String symbol, int value) {
+    public Card(String suit, String symbol, int value) {
         this.suit = suit;
         this.symbol = symbol;
         this.value = value;

@@ -1,3 +1,5 @@
+package Card;
+
 public enum SuitType {
     Spades,
     Clubs,
