@@ -1,7 +1,10 @@
+package Deck;
+
+import Card.Card;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -17,7 +20,7 @@ public class Deck {
         this.deckOfCards = deckOfCards;
     }
 
-    Deck() {
+    public Deck() {
         for (String suit : suits) {
             for (String symbol : symbols) {
                 if (value >= 13) {
@@ -43,7 +46,7 @@ public class Deck {
         public void sortDeckBySuit() {
 
 //            deckOfCards = deckOfCards.stream()
-//                    .filter(Card -> Card.getSuit())
+//                    .filter(CardAndDeck.Card -> CardAndDeck.Card.getSuit())
 //                    .sorted((a,b) -> a.getValue() - b.getValue())
 //                    .collect(Collectors.toList());
         }
