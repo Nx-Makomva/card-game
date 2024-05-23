@@ -33,7 +33,15 @@ public class Deck {
         }
     }
 
-        public void dealCard () {
+    public List<Card> getDeckOfCards() {
+        return deckOfCards;
+    }
+
+    public void setDeckOfCards(List<Card> deckOfCards) {
+        this.deckOfCards = deckOfCards;
+    }
+
+    public void dealCard () {
             System.out.println(deckOfCards.get(0));
         }
 
