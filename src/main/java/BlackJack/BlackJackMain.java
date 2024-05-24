@@ -1,13 +1,15 @@
 package BlackJack;
 
 
+import BlackJack.Commands.ChooseCardCommandRunner;
 import CommandRunner.WelcomeScreenCommands;
-import ComputerPlayer.ComputerPlayer;
 import Player.Player;
+import Player.ComputerPlayer;
 import Card.Card;
 import Deck.Deck;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class BlackJackMain {
@@ -26,7 +28,7 @@ public class BlackJackMain {
         Deck deck = new Deck();
         deck.shuffleDeck();
         // new instance of scanner here to grab users name
-        Player player = new Player("");
+        Player player = new Player("", true);
 
         WelcomeScreenCommands welcome = new WelcomeScreenCommands();
         welcome.runCommands();
@@ -44,7 +46,7 @@ public class BlackJackMain {
         // - player class
         // - dealer class
 
-        System.out.println("Welcome to black jack");
+        System.out.println("Welcome to black jack"); // eventually move this to a welcome screen - possibly one that reroutes from welcome command screen
         System.out.println("Here are your cards");
 
         List<Card> playerHand = new ArrayList<>();
@@ -58,25 +60,17 @@ public class BlackJackMain {
             cpuTwoHand.add(deck.dealCard(1).get(0));
         }
 
-
-//        playerHand = deck.dealCard(7);
-//        cpuOneHand = deck.dealCard(7);
-//        cpuTwoHand = deck.dealCard(7);
-
-
         ComputerPlayer cpuOne = new ComputerPlayer(cpuOneHand);
         ComputerPlayer cpuTwo = new ComputerPlayer(cpuTwoHand);
         player.setCurrentHand(playerHand);
 
 
         System.out.println("Player current hand is: " + player.getCurrentHand());
-        System.out.println("CPUOne current hand is: " + cpuOne.getCurrentHand());
-        System.out.println("CPUTwo current hand is: " + cpuTwo.getCurrentHand());
 
         // player should see picture cards eventually and not array of cards
 
         // 1 card should be dealt in the middle, to begin, but it can't be Ace, J, Q or K
-        List<Card> playingCard = deck.dealCard(1);
+        List<Card> playingCard = deck.dealCard(1); // can this be merged into one line with bottom line?
             Card currentCard = playingCard.get(0);
             int cardValue = currentCard.getValue();
             String cardSuit = currentCard.getSuit();
@@ -92,7 +86,6 @@ public class BlackJackMain {
 
         // Player turns - after player turn ends then it's time for cpu turns to execute
 
-
         List<Card> playableCards = new ArrayList<>();
 
         for (Card card : playerHand) {
@@ -101,14 +94,73 @@ public class BlackJackMain {
             }
         }
 
+        List<String> cardStrings = new ArrayList<>();
+        for (Card card : playableCards) {
+            cardStrings.add(card.toString());
+        }
+        cardStrings.add("Pick up a card");
+
+        String[] cardStringsArray = cardStrings.toArray(new String[0]);
+
+
+//        System.out.println("the card strings are: " + cardStrings);
+//        System.out.println("the string ARRAY IS: " + Arrays.toString(cardStringsArray));
+
+
+
+
+
+
+
+
+
+
+        // WORK OUT HOW TO ADD A CARD TO PLAYER HAND WHEN THEY CHOOSE TO PICK UP A CARD
+
+
+        ChooseCardCommandRunner chooseCardCommandRunner = new ChooseCardCommandRunner(cardStringsArray, "Picking a card");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         if (!playableCards.isEmpty()) {
             System.out.println("Hey, you can play: " + playableCards);
+            // run a card selection command runner that takes user choice and executes it
+            // - playable cards needs to be given as the commands
+            // run a class - probs in player that selects the card that has been chosen
             // and choice of input here for them to choose which card to play
+            chooseCardCommandRunner.runCommands();// CAN I GET choose card command runner to return info about user selection? then i can use that info to do Player.addCradstoHand method
+            boolean userChoice = chooseCardCommandRunner.getUserSelection();
+            if (userChoice) {
+               List<Card> newCard = deck.dealCard(1);
+                Player.addCardsToHand(newCard);
+                System.out.println("You drew: " + newCard);
+                System.out.println(player.getCurrentHand());
+            }
+
         } else {
             System.out.println("No luck, you'll have to pick up a card");
             List<Card> pickUpCard = deck.dealCard(1);
-            player.addCardsToHand(pickUpCard);
+            Player.addCardsToHand(pickUpCard);
             System.out.println("You picked up: " + pickUpCard);
             System.out.println("Your new hand is: " + player.getCurrentHand());
         }

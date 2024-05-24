@@ -12,7 +12,7 @@ public class Player {
     protected int wallet = 500;
     protected int playerScore;
     protected boolean isHuman;
-    protected List<Card> currentHand;
+    protected static List<Card> currentHand;
 
     // constructors
     public Player(String playerName, boolean isHuman) {
@@ -59,11 +59,11 @@ public class Player {
         this.currentHand = cards;
     }
 
-    public void addCardsToHand(List<Card> cards) {
-        if (this.currentHand == null) {
-            this.currentHand = new ArrayList<>();
+    public static void addCardsToHand(List<Card> cards) {
+        if (currentHand == null) {
+            currentHand = new ArrayList<>();
         }
-        this.currentHand.addAll(cards);
+        currentHand.addAll(cards);
     }
     public void pairRemoval() {
         // each player needs to go through their cards and remove any pairs
