@@ -1,4 +1,4 @@
-package BlackJack.CommandRunner;
+package CommandRunner;
 
 import BlackJack.BlackJackMain;
 

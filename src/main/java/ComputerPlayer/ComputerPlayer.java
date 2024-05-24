@@ -1,18 +1,16 @@
-package BlackJack.Player;
+package ComputerPlayer;
 
 import Card.Card;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
-
+public class ComputerPlayer {
     private String name;
     private int wallet = 500;
     private List<Card> currentHand;
 
-    public Player(String name) {
-        this.name = name;
+    public ComputerPlayer(List<Card> currentHandHand) {
+        this.currentHand = currentHandHand;
     }
 
     public String getName() {
@@ -43,14 +41,7 @@ public class Player {
         return totalValue;
     }
 
-    public void setCurrentHand(List<Card> cards) {
-        this.currentHand = cards;
-    }
-
-    public void addCardsToHand(List<Card> cards) {
-        if (this.currentHand == null) {
-            this.currentHand = new ArrayList<>();
-        }
-        this.currentHand.addAll(cards);
+    public void setCurrentHand(List<Card> currentHand) {
+        this.currentHand = currentHand;
     }
 }

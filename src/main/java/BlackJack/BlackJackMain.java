@@ -1,16 +1,14 @@
 package BlackJack;
 
 
-import BlackJack.CommandRunner.WelcomeScreenCommands;
-import BlackJack.ComputerPlayer.ComputerPlayer;
-import BlackJack.Player.Player;
+import CommandRunner.WelcomeScreenCommands;
+import ComputerPlayer.ComputerPlayer;
+import Player.Player;
 import Card.Card;
 import Deck.Deck;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 public class BlackJackMain {
 
@@ -103,12 +101,13 @@ public class BlackJackMain {
             }
         }
 
+
         if (!playableCards.isEmpty()) {
             System.out.println("Hey, you can play: " + playableCards);
             // and choice of input here for them to choose which card to play
         } else {
             System.out.println("No luck, you'll have to pick up a card");
-            List<Card> pickUpCard = deck.dealCard(5);
+            List<Card> pickUpCard = deck.dealCard(1);
             player.addCardsToHand(pickUpCard);
             System.out.println("You picked up: " + pickUpCard);
             System.out.println("Your new hand is: " + player.getCurrentHand());
