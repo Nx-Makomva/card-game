@@ -8,11 +8,11 @@ import java.util.List;
 public class Player {
 
     // variables
-    private String playerName;
-    private int wallet = 500;
-    private int playerScore;
-    private boolean isHuman;
-    private List<Card> currentHand;
+    protected String playerName;
+    protected int wallet = 500;
+    protected int playerScore;
+    protected boolean isHuman;
+    protected List<Card> currentHand;
 
     // constructors
     public Player(String playerName, boolean isHuman) {
@@ -79,9 +79,14 @@ public class Player {
     }
 
     public void countScore() {
+        // might be a berna only method idk yet
         // scoring: 2 player : winner = x points
         // 2 or more : first x points, second x-5 etc etc..
         // loser 0 points
+    }
+
+    public void updateScore() {
+        // something to set the score? or update score for the player?
     }
 
     @Override
