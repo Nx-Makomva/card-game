@@ -7,20 +7,30 @@ import java.util.List;
 
 public class Player {
 
-    private String name;
-    private int wallet = 500;
-    private List<Card> currentHand;
+    // variables
+    protected String playerName;
+    protected int wallet = 500;
+    protected int playerScore;
+    protected boolean isHuman;
+    protected List<Card> currentHand;
 
-    public Player(String name) {
-        this.name = name;
+    // constructors
+    public Player(String playerName, boolean isHuman) {
+        this.playerName = playerName;
+        this.isHuman = isHuman;
+        this.playerScore = 0; // initialise to 0
+        this.currentHand = new ArrayList<>();
+    }
+    public Player() {
     }
 
+    // getters and setters
     public String getName() {
-        return name;
+        return playerName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String playerName) {
+        this.playerName = playerName;
     }
 
     public int getWallet() {
@@ -34,6 +44,8 @@ public class Player {
     public List<Card> getCurrentHand() {
         return currentHand;
     }
+
+    // methods
 
     public int getHandValue() {
         int totalValue = 0;
@@ -53,4 +65,34 @@ public class Player {
         }
         this.currentHand.addAll(cards);
     }
+    public void pairRemoval() {
+        // each player needs to go through their cards and remove any pairs
+        // go through each card in list, if there's match in list, then remove
+        // need to make sure it only removes pairs, not 3s
+    }
+
+    public void cardPullFromOtherPlayer() {
+        // mimic player 1 pulling random card from player 2's deck -> ask for user input
+        // "choose a card from player x's deck"
+        // print the number of cards player x has ?
+
+    }
+
+    public void countScore() {
+        // might be a berna only method idk yet
+        // scoring: 2 player : winner = x points
+        // 2 or more : first x points, second x-5 etc etc..
+        // loser 0 points
+    }
+
+    public void updateScore() {
+        // something to set the score? or update score for the player?
+    }
+
+    @Override
+    public String toString() {
+        return playerName;
+    }
+
+
 }
