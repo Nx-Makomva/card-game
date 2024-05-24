@@ -33,17 +33,29 @@ public class Deck {
         }
     }
 
-    public List<Card> getDeckOfCards() {
-        return deckOfCards;
-    }
+        public List<Card> dealCard (int numberOfCards) {
+        List<Card> dealtCards = new ArrayList<>();
+
+            for (int i = 0; i < numberOfCards; i++) {
+                if (i < deckOfCards.size()) {
+                    if (!deckOfCards.isEmpty()) {
+                        Card card = deckOfCards.remove(0);
+                        dealtCards.add(card);
+                    }
+                } else {
+                    System.out.println("No more cards in deck, one moment whilst I reshuffle the cards");
+                    resetDeck();
+                    shuffleDeck(); // or can just reset and not shuffle in this method
+                }
+            }
+            return dealtCards;
+        }
 
     public void setDeckOfCards(List<Card> deckOfCards) {
         this.deckOfCards = deckOfCards;
     }
 
-    public void dealCard () {
-            System.out.println(deckOfCards.get(0));
-        }
+        // dealAllCards method ????
 
         public void sortDeck () {
         deckOfCards = deckOfCards.stream()
@@ -80,6 +92,8 @@ public class Deck {
             for (Card card : deckOfCards) {
                 System.out.println(card);
             }
+
+            System.out.println(deckOfCards.size());
         }
     }
 
