@@ -19,6 +19,14 @@ public class BlackJackMain {
     private static boolean computerTurn = false;
     private static boolean playerTurn = true;
 
+    public static void setComputerTurn(boolean computerTurn) {
+        BlackJackMain.computerTurn = computerTurn;
+    }
+
+    public static void setPlayerTurn(boolean playerTurn) {
+        BlackJackMain.playerTurn = playerTurn;
+    }
+
     public static boolean isGameOver() {
         return gameOver;
     }
@@ -70,9 +78,6 @@ public class BlackJackMain {
         int cardValue = currentCard.getValue();
         String cardSuit = currentCard.getSuit();
 
-
-        System.out.println("\nFirst playing card is " + playingCard);
-
         List<Card> playableCards = player.determinePlayableCards(playerHand, cardValue, cardSuit);
 
         List<String> cardStrings = new ArrayList<>();
@@ -90,11 +95,14 @@ public class BlackJackMain {
             playerTurn = true;
             computerTurn = false;
 
-            currentCard = playingCard.get(playingCard.size() - 1);
+
+            System.out.print("\nThe card in the middle is: \n");
+            System.out.println(currentCard = playingCard.get(playingCard.size() - 1));
             cardValue = currentCard.getValue();
             cardSuit = currentCard.getSuit();
             playerHand = player.getCurrentHand();
             playableCards = player.determinePlayableCards(playerHand, cardValue, cardSuit);
+            List<Card> pickUpCard = deck.dealCard(1);
 
             List<String> resetCommands = chooseCardCommandRunner.resetCommands(cardStrings, playableCards);
             cardStringsArray = resetCommands.toArray(cardStrings.toArray(new String[0]));
@@ -111,24 +119,50 @@ public class BlackJackMain {
                 if (userPickingFromDeck) {
                     List<Card> newCard = deck.dealCard(1);
                     player.addCardsToHand(newCard);
-                    playerTurn = false;
-                    computerTurn = true;
+                    Card cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
+                    System.out.println("CPU ONE PICKED: " + cpuOnePlayedCard);
+                    if (cpuOnePlayedCard != null ) {
+                        playingCard.add(cpuOnePlayedCard);
+                    }
+                    Card cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
+                    System.out.println("CPU TWO PICKED: " + cpuTwoPlayedCard);
+                    if (cpuTwoPlayedCard != null ) {
+                        playingCard.add(cpuTwoPlayedCard);
+                    }
+
                     // turn ends here and it should go back to computer turn
                     // run computer turn
                 } else {
                     player.playCardFromHand(userChoice, playableCards);
                     playingCard.add(player.getUserPlayedCard());
-                    playerTurn = false;
-                    computerTurn = true;
+                    Card cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
+                    System.out.println("CPU ONE PICKED: " + cpuOnePlayedCard);
+                    if (cpuOnePlayedCard != null ) {
+                        playingCard.add(cpuOnePlayedCard);
+                    }
+                    Card cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
+                    System.out.println("CPU TWO PICKED: " + cpuTwoPlayedCard);
+                    if (cpuTwoPlayedCard != null ) {
+                        playingCard.add(cpuTwoPlayedCard);
+                    }
+
 //                    System.out.println("\nLast Played card: " + playingCard.get(playingCard.size() - 1));
                     // turn ends here and it should go back to computer turn
                 }
             } else {
-                System.out.println("No luck, you'll have to pick up a card");
-                List<Card> pickUpCard = deck.dealCard(1);
+                System.out.println("\nIt's your turn but you can't play anything, you'll have to pick up a card");
                 player.addCardsToHand(pickUpCard);
-                playerTurn = false;
-                computerTurn = true;
+                Card cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
+                System.out.println("CPU ONE PICKED: " + cpuOnePlayedCard);
+                if (cpuOnePlayedCard != null ) {
+                    playingCard.add(cpuOnePlayedCard);
+                }
+                Card cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
+                System.out.println("CPU TWO PICKED: " + cpuTwoPlayedCard);
+                if (cpuTwoPlayedCard != null ) {
+                    playingCard.add(cpuTwoPlayedCard);
+                }
+
                 // turn ends here and it should go back to computer turn
             }
 

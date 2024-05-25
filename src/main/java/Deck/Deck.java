@@ -43,11 +43,12 @@ public class Deck {
                         dealtCards.add(card);
                     }
                 } else {
-                    System.out.println("No more cards in deck, one moment whilst I reshuffle the cards");
+                    System.out.println("\nNo more cards in deck, one moment whilst I reshuffle the cards");
                     resetDeck();
-                    shuffleDeck(); // or can just reset and not shuffle in this method
+                    shuffleDeck();
                 }
             }
+            System.out.println(deckOfCards.size());
             return dealtCards;
         }
 
