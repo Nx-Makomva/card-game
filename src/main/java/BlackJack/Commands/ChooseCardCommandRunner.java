@@ -16,7 +16,6 @@ public class ChooseCardCommandRunner extends CommandRunner {
         if (userSelection == this.commands.length) {
             printMessage("\n Picking up from the Deck...");
             this.userPickUpCard = true;
-            System.out.println(userSelection);
             System.out.println(userPickUpCard);
              // figure out how to have command runner pass this info back
         } else {
@@ -25,8 +24,12 @@ public class ChooseCardCommandRunner extends CommandRunner {
 
     }
 
-    public boolean getUserSelection() {
+    public boolean isPickingACard() {
         return userPickUpCard;
+    }
+
+    public int getUserSelection() {
+        return userSelection;
     }
 
 

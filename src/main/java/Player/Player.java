@@ -12,7 +12,8 @@ public class Player {
     protected int wallet = 500;
     protected int playerScore;
     protected boolean isHuman;
-    protected static List<Card> currentHand;
+    protected List<Card> currentHand;
+    protected Card userPlayedCard = null;
 
     // constructors
     public Player(String playerName, boolean isHuman) {
@@ -59,12 +60,29 @@ public class Player {
         this.currentHand = cards;
     }
 
-    public static void addCardsToHand(List<Card> cards) {
+    public Card getUserPlayedCard() {
+        return userPlayedCard;
+    }
+
+    public void addCardsToHand(List<Card> cards) {
         if (currentHand == null) {
             currentHand = new ArrayList<>();
         }
         currentHand.addAll(cards);
     }
+
+    public void playCardFromHand(int userChoice, List<Card> playableCards) {
+        if (userChoice >= 0 && userChoice < playableCards.size()) {
+            Card playedCard = playableCards.get(userChoice);
+            userPlayedCard = playedCard;
+            System.out.println("\n You have chosen to play: " + playedCard);
+            currentHand.remove(playedCard);
+
+            System.out.println(currentHand);
+        }
+    }
+
+
     public void pairRemoval() {
         // each player needs to go through their cards and remove any pairs
         // go through each card in list, if there's match in list, then remove

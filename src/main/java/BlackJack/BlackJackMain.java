@@ -9,7 +9,6 @@ import Card.Card;
 import Deck.Deck;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class BlackJackMain {
@@ -33,18 +32,10 @@ public class BlackJackMain {
         WelcomeScreenCommands welcome = new WelcomeScreenCommands();
         welcome.runCommands();
 
-        // run commands here: - where scanner stuff is to take and store input
-        // 1. welcome player to the game
-        // 2. ask them if they want to continue playing or quit
-        // 3. If they continue to play then run the welcome screen + instructions on how to play
-        // e.g. aim of the game, the amount of money they start with - that they can bet etc.
-        // 4. run actual game.
-
         // Things I need:
         // - a wallet for the user's money amount
         // - display class to show user their cards and the dealer cards
-        // - player class
-        // - dealer class
+
 
         System.out.println("Welcome to black jack"); // eventually move this to a welcome screen - possibly one that reroutes from welcome command screen
         System.out.println("Here are your cards");
@@ -71,9 +62,9 @@ public class BlackJackMain {
 
         // 1 card should be dealt in the middle, to begin, but it can't be Ace, J, Q or K
         List<Card> playingCard = deck.dealCard(1); // can this be merged into one line with bottom line?
-            Card currentCard = playingCard.get(0);
-            int cardValue = currentCard.getValue();
-            String cardSuit = currentCard.getSuit();
+        Card currentCard = playingCard.get(0);
+        int cardValue = currentCard.getValue();
+        String cardSuit = currentCard.getSuit();
 
 
         System.out.println("First playing card is " + playingCard);
@@ -103,43 +94,7 @@ public class BlackJackMain {
         String[] cardStringsArray = cardStrings.toArray(new String[0]);
 
 
-//        System.out.println("the card strings are: " + cardStrings);
-//        System.out.println("the string ARRAY IS: " + Arrays.toString(cardStringsArray));
-
-
-
-
-
-
-
-
-
-
-        // WORK OUT HOW TO ADD A CARD TO PLAYER HAND WHEN THEY CHOOSE TO PICK UP A CARD
-
-
         ChooseCardCommandRunner chooseCardCommandRunner = new ChooseCardCommandRunner(cardStringsArray, "Picking a card");
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         if (!playableCards.isEmpty()) {
@@ -149,31 +104,32 @@ public class BlackJackMain {
             // run a class - probs in player that selects the card that has been chosen
             // and choice of input here for them to choose which card to play
             chooseCardCommandRunner.runCommands();// CAN I GET choose card command runner to return info about user selection? then i can use that info to do Player.addCradstoHand method
-            boolean userChoice = chooseCardCommandRunner.getUserSelection();
-            if (userChoice) {
-               List<Card> newCard = deck.dealCard(1);
-                Player.addCardsToHand(newCard);
+            boolean userPickingFromDeck = chooseCardCommandRunner.isPickingACard();
+            int userChoice = chooseCardCommandRunner.getUserSelection() - 1;
+            if (userPickingFromDeck) {
+                List<Card> newCard = deck.dealCard(1);
+                player.addCardsToHand(newCard);
                 System.out.println("You drew: " + newCard);
                 System.out.println(player.getCurrentHand());
+                // turn ends here and it should go back to computer turn
+            } else {
+                player.playCardFromHand(userChoice, playableCards);
+                playingCard.add(player.getUserPlayedCard());
+                System.out.println("Last Played card: " + playingCard.get(playingCard.size() - 1));
+            }
+        } else {
+                System.out.println("No luck, you'll have to pick up a card");
+                List<Card> pickUpCard = deck.dealCard(1);
+                player.addCardsToHand(pickUpCard);
+                System.out.println("You picked up: " + pickUpCard);
+                System.out.println("Your new hand is: " + player.getCurrentHand());
             }
 
-        } else {
-            System.out.println("No luck, you'll have to pick up a card");
-            List<Card> pickUpCard = deck.dealCard(1);
-            Player.addCardsToHand(pickUpCard);
-            System.out.println("You picked up: " + pickUpCard);
-            System.out.println("Your new hand is: " + player.getCurrentHand());
+            do {
+
+                // have a player class that takes in cards and accumulates the value of those cards.
+                // If they go above 21 then they bust. If below 17 then they must keep drawing
+            } while (!GameOver);
+
         }
-
-//
-//        System.out.println("card numbers are: " + cardNumbers);
-//        System.out.println("card suits are: " + cardSuits);
-
-        do {
-
-            // have a player class that takes in cards and accumulates the value of those cards.
-            // If they go above 21 then they bust. If below 17 then they must keep drawing
-        } while (!GameOver);
-
     }
-}
