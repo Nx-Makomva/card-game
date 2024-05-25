@@ -28,9 +28,11 @@ public class WelcomeScreenCommands extends CommandRunner {
         System.out.println("You've chosen to " + WELCOME_SCREEN_COMMANDS[userSelection - 1]);
         switch(userSelection){
             case 1:
+                // Play Game 1
                 BlackJackMain.setGameOver(false);
                 break;
             case 2:
+                // Play Game 2
 //                GameLoader.chooseGame();
         }
     }

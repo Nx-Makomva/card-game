@@ -13,7 +13,7 @@ public class Player {
     protected int playerScore;
     protected boolean isHuman;
     protected List<Card> currentHand;
-    protected Card userPlayedCard = null;
+
 
     // constructors
     public Player(String playerName, boolean isHuman) {
@@ -22,6 +22,7 @@ public class Player {
         this.playerScore = 0; // initialise to 0
         this.currentHand = new ArrayList<>();
     }
+
     public Player() {
     }
 
@@ -60,26 +61,12 @@ public class Player {
         this.currentHand = cards;
     }
 
-    public Card getUserPlayedCard() {
-        return userPlayedCard;
-    }
 
     public void addCardsToHand(List<Card> cards) {
         if (currentHand == null) {
             currentHand = new ArrayList<>();
         }
         currentHand.addAll(cards);
-    }
-
-    public void playCardFromHand(int userChoice, List<Card> playableCards) {
-        if (userChoice >= 0 && userChoice < playableCards.size()) {
-            Card playedCard = playableCards.get(userChoice);
-            userPlayedCard = playedCard;
-            System.out.println("\n You have chosen to play: " + playedCard);
-            currentHand.remove(playedCard);
-
-            System.out.println(currentHand);
-        }
     }
 
 
@@ -111,6 +98,5 @@ public class Player {
     public String toString() {
         return playerName;
     }
-
 
 }

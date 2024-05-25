@@ -27,7 +27,7 @@ public void runCommands() {
 
 
 protected void intro() {
-    printMessage(String.format("\n How would you like to proceed with the %s\n", name));
+    printMessage(String.format("\n Please make a choice for %s\n", name));
 }
 
 
