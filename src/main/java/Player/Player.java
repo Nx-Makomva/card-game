@@ -66,9 +66,11 @@ public class Player {
         this.currentHand.addAll(cards);
     }
     public void pairRemoval() {
+
         // each player needs to go through their cards and remove any pairs
         // go through each card in list, if there's match in list, then remove
         // need to make sure it only removes pairs, not 3s
+
     }
 
     public void cardPullFromOtherPlayer() {

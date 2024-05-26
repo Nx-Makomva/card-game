@@ -33,67 +33,72 @@ public class Deck {
         }
     }
 
-        public List<Card> dealCard (int numberOfCards) {
+    public List<Card> dealCard(int numberOfCards) {
         List<Card> dealtCards = new ArrayList<>();
 
-            for (int i = 0; i < numberOfCards; i++) {
-                if (i < deckOfCards.size()) {
-                    if (!deckOfCards.isEmpty()) {
-                        Card card = deckOfCards.remove(0);
-                        dealtCards.add(card);
-                    }
-                } else {
-                    System.out.println("No more cards in deck, one moment whilst I reshuffle the cards");
-                    resetDeck();
-                    shuffleDeck(); // or can just reset and not shuffle in this method
+        for (int i = 0; i < numberOfCards; i++) {
+            if (i < deckOfCards.size()) {
+                if (!deckOfCards.isEmpty()) {
+                    Card card = deckOfCards.remove(0);
+                    dealtCards.add(card);
                 }
+            } else {
+                System.out.println("No more cards in deck, one moment whilst I reshuffle the cards");
+                resetDeck();
+                shuffleDeck(); // or can just reset and not shuffle in this method
             }
-            return dealtCards;
         }
+        return dealtCards;
+    }
+
+    public List<Card> getDeckOfCards() {
+        return deckOfCards;
+    }
 
     public void setDeckOfCards(List<Card> deckOfCards) {
         this.deckOfCards = deckOfCards;
     }
 
-        // dealAllCards method ????
+    // dealAllCards method ????
 
-        public void sortDeck () {
+    public void sortDeck() {
         deckOfCards = deckOfCards.stream()
                 .sorted((a, b) -> a.getValue() - b.getValue())
                 .collect(Collectors.toList());
-        }
+    }
 
-        public void sortDeckBySuit() {
+    public void sortDeckBySuit() {
 
 //            deckOfCards = deckOfCards.stream()
 //                    .filter(CardAndDeck.Card -> CardAndDeck.Card.getSuit())
 //                    .sorted((a,b) -> a.getValue() - b.getValue())
 //                    .collect(Collectors.toList());
-        }
+    }
 
-        public void shuffleDeck() {
-             Collections.shuffle(deckOfCards);
-        }
+    public void shuffleDeck() {
+        Collections.shuffle(deckOfCards);
+    }
 
-        public void resetDeck() {
-            deckOfCards.clear();
-            for (String suit : suits) {
-                for (String symbol : symbols) {
-                    if (value >= 13) {
-                        value = 0;
-                    }
-                    value++;
-                    deckOfCards.add(new Card(suit, symbol, value));
+    public void resetDeck() {
+        deckOfCards.clear();
+        for (String suit : suits) {
+            for (String symbol : symbols) {
+                if (value >= 13) {
+                    value = 0;
                 }
+                value++;
+                deckOfCards.add(new Card(suit, symbol, value));
             }
-        }
-
-        public void printDeck() {
-            for (Card card : deckOfCards) {
-                System.out.println(card);
-            }
-
-            System.out.println(deckOfCards.size());
         }
     }
+
+    public void printDeck() {
+        for (Card card : deckOfCards) {
+            System.out.println(card);
+        }
+
+        System.out.println(deckOfCards.size());
+    }
+
+}
 

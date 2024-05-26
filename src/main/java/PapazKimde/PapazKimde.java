@@ -2,10 +2,12 @@ package PapazKimde;
 
 import Deck.Deck;
 import Card.Card;
+import Player.Player;
+import Player.ComputerPlayer;
+
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
@@ -18,7 +20,6 @@ public class PapazKimde {
     private Deck gameDeck;
     private UserInteraction userInteraction;
     private List<Player> players;
-
 
     public PapazKimde(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
@@ -83,12 +84,13 @@ public class PapazKimde {
     }
 
     public void deckDeal() {
-        // deal the whole deck to the players
-        // > some sort of array list for each player = their 'hand'
-
+        int currentPlayerIndex = 0;
+        while (!gameDeck.getDeckOfCards().isEmpty()) {
+            Card dealtCard = gameDeck.dealCard(1).get(0);
+            players.get(currentPlayerIndex).addCardsToHand(List.of(dealtCard));
+            currentPlayerIndex = (currentPlayerIndex + 1) % numberOfPlayers;
+        }
     }
-
-
 
 
     public void playPapazKimde() {
@@ -96,10 +98,18 @@ public class PapazKimde {
         numberOfPlayers = userInteraction.howManyPlayers();
         handleCreationOfUsers();
         System.out.println("Players:");
+        deckDeal();
         for (Player player : players) {
             System.out.println(player);
+            System.out.println("initial hand: " + player.getCurrentHand());
         }
-        // initial pair check
+
+//         initial pair check
+        for (Player player : players) {
+            player.pairRemoval();
+            System.out.println("pair removal : " + player.getCurrentHand());
+        }
+
 
         ///// loop
         // method of pulling card from other player
