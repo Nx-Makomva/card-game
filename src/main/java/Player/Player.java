@@ -3,7 +3,9 @@ package Player;
 import Card.Card;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Player {
 
@@ -21,6 +23,7 @@ public class Player {
         this.playerScore = 0; // initialise to 0
         this.currentHand = new ArrayList<>();
     }
+
     public Player() {
     }
 
@@ -65,11 +68,48 @@ public class Player {
         }
         this.currentHand.addAll(cards);
     }
-    public void pairRemoval() {
 
-        // each player needs to go through their cards and remove any pairs
-        // go through each card in list, if there's match in list, then remove
-        // need to make sure it only removes pairs, not 3s
+    public void pairRemoval() {
+        List<Card> cardsToRemove = new ArrayList<>();
+        Set<Integer> indicesToSkip = new HashSet<>();
+
+        // iterating through each card in current hand
+        for (int i = 0; i < currentHand.size(); i++) {
+            // Skip this index if it's already part of a pair
+            if (indicesToSkip.contains(i)) {
+                continue;
+            }
+            Card cardToMatch1 = currentHand.get(i);
+            boolean pairFound = false;
+
+            // inner loop to compare selected card with rest of hand
+            for (int j = i + 1; j < currentHand.size(); j++) {
+                // Skip this index if it's already part of a pair
+                if (indicesToSkip.contains(j)) {
+                    continue;
+                }
+
+                Card cardToMatch2 = currentHand.get(j);
+                // check if there is a match
+                if (cardToMatch1.getValue() == cardToMatch2.getValue()) {
+                    cardsToRemove.add(cardToMatch1);
+                    System.out.println("card 1 : " + cardToMatch1);
+                    cardsToRemove.add(cardToMatch2);
+                    System.out.println(" card 2: " +cardToMatch2);
+                    indicesToSkip.add(i);
+                    indicesToSkip.add(j);
+                    System.out.println(" to skip : " +indicesToSkip);
+                    pairFound = true;
+                    break;
+                }
+            }
+            // skipping current iteration once pair is found and moving onto next card in currentHand
+            if (pairFound) {
+                continue;
+            }
+        }
+        System.out.println(" card to remove: " +cardsToRemove);
+        currentHand.removeAll(cardsToRemove);
 
     }
 
