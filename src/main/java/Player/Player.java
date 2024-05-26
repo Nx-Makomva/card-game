@@ -94,12 +94,9 @@ public class Player {
                 // check if there is a match
                 if (cardToMatch1.getValue() == cardToMatch2.getValue()) {
                     cardsToRemove.add(cardToMatch1);
-                    System.out.println("card 1 : " + cardToMatch1);
                     cardsToRemove.add(cardToMatch2);
-                    System.out.println(" card 2: " +cardToMatch2);
                     indicesToSkip.add(i);
                     indicesToSkip.add(j);
-                    System.out.println(" to skip : " +indicesToSkip);
                     pairFound = true;
                     break;
                 }
@@ -109,9 +106,7 @@ public class Player {
                 continue;
             }
         }
-        System.out.println(" card to remove: " +cardsToRemove);
         currentHand.removeAll(cardsToRemove);
-
     }
 
     public void cardPullFromOtherPlayer() {
