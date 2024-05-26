@@ -71,6 +71,7 @@ public class Player {
 
     public void pairRemoval() {
         List<Card> cardsToRemove = new ArrayList<>();
+        // using sets because do not want duplicates
         Set<Integer> indicesToSkip = new HashSet<>();
 
         // iterating through each card in current hand
