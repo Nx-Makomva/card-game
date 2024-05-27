@@ -73,13 +73,13 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         }
     }
 
-    public void playCardFromHand() {
-        System.out.println("\n " + NAME + " is thinking...");
-        Random random = new Random();
-        int randomIndex = random.nextInt(playableCards.size());
-        cpuPlayedCard = playableCards.get(randomIndex);
-        currentHand.remove(cpuPlayedCard);
-    }
+//    public void playCardFromHand() {
+//        System.out.println("\n " + NAME + " is thinking...");
+//        Random random = new Random();
+//        int randomIndex = random.nextInt(playableCards.size());
+//        cpuPlayedCard = playableCards.get(randomIndex);
+//        currentHand.remove(cpuPlayedCard);
+//    }
 
     public List<Card> cpuTakeTurn(Card currentCard) {
         if (deck == null) {
@@ -95,7 +95,10 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         int randomIndex = random.nextInt(CPU_RESPONSES_PICKING.length);
 
         if (!playableCards.isEmpty()) {
-            playCardFromHand();
+            System.out.println("\n " + NAME + " is thinking...");
+            int randomCardIndex = random.nextInt(playableCards.size());
+            cpuPlayedCard = playableCards.get(randomCardIndex);
+            currentHand.remove(cpuPlayedCard);
             playedCards.add(cpuPlayedCard);
             handlePowerCard(playedCards, currentCard);
 
@@ -110,6 +113,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         } else {
             System.out.println("\n " + NAME + " is thinking...");
             handlePowerCard(playedCards, currentCard);
+
             if (endTurnEarly) {
                 BlackJackMain.setPickedUp(true);
                 return null;
@@ -130,8 +134,8 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
     }
 
     private boolean isPowerCard(String symbol) {
-        return "A".equals(symbol) || "K".equals(symbol) || "Q".equals(symbol) ||
-                "J".equals(symbol) || "8".equals(symbol) || "2".equals(symbol);
+        return "A".equals(symbol) || "Q".equals(symbol) ||
+                "J".equals(symbol) || "2".equals(symbol);
     }
 
     public void handlePowerCard(List<Card> playedCards, Card currentCard) {
@@ -156,15 +160,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         } else if (isPowerCard(currentCard.getSymbol())) {
             System.out.println("Handle powerCard: checking card in play");
             System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
-            if ("8".equals(currentCard.getSymbol())) {
-                if (BlackJackMain.isPickedUp()) {
-                    BlackJackMain.setPickedUp(false);
-                } else {
-                    System.out.println("Oh...It's a conspiracy... my turn has been skipped");
-                    BlackJackMain.setPickedUp(true);
-                    setEndTurnEarly(true);
-                }
-            } else if ("2".equals(currentCard.getSymbol())) {
+            if ("2".equals(currentCard.getSymbol())) {
                 System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
                 if (BlackJackMain.isPickedUp()) {
                     BlackJackMain.setPickedUp(false);

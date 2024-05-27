@@ -41,7 +41,7 @@ public class BlackJackMain {
         Deck deck = new Deck();
         deck.shuffleDeck();
         // new instance of scanner here to grab users name
-        PlayerBlackJack player = new PlayerBlackJack("", true);
+        PlayerBlackJack player = new PlayerBlackJack("", true, deck);
 
         WelcomeScreenCommands welcome = new WelcomeScreenCommands();
         welcome.runCommands();
@@ -88,7 +88,7 @@ public class BlackJackMain {
         cardStrings.add("Pick up a card");
 
         String[] cardStringsArray = cardStrings.toArray(new String[0]);
-        ChooseCardCommandRunner chooseCardCommandRunner = new ChooseCardCommandRunner(cardStringsArray, "Picking a card");
+        ChooseCardCommandRunner chooseCardCommandRunner = new ChooseCardCommandRunner(cardStringsArray, "Picking a card", player);
 
         do {
             // run player turn at the start of each loop. turn terminates when choice is made
@@ -106,6 +106,7 @@ public class BlackJackMain {
             chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
 
             if (!playableCards.isEmpty()) {
+                System.out.println("\n You current hand: " + playerHand);
                 System.out.println("\nHint: ...you can play: " + playableCards);
                 chooseCardCommandRunner.runCommands();
 
@@ -113,6 +114,7 @@ public class BlackJackMain {
                 int userChoice = chooseCardCommandRunner.getUserSelection() - 1;
 
                 if (userPickingFromDeck) {
+                    // change this to player take turn
                     player.addCardsToHand(deck.dealCard(1));
                     pickedUp = true;
                     currentCard = playingCard.get(playingCard.size() - 1);
