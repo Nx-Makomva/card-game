@@ -9,7 +9,10 @@ import java.util.List;
 import java.util.Random;
 
 public class ComputerPlayerBlackJack extends ComputerPlayer {
+    private String suit;
+    private String symbol;
     protected Card cpuPlayedCard = null;
+    List<Card> playedCards = new ArrayList<>();
     List<Card> playableCards = new ArrayList<>();
     String[] cpuResponsesPicking = {
             "This card’s not for you just yet. Let’s see what else I can pick up.\n",
@@ -62,28 +65,30 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         }
     }
 
-    public Card getCpuPlayedCard() {
-        try {
-            Thread.sleep(4000);
-            System.out.println("I picked: " + cpuPlayedCard);
-            return cpuPlayedCard;
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+//    public Card getCpuPlayedCard() {
+//        try {
+//            Thread.sleep(3000);
+//            System.out.println("I played: " + cpuPlayedCard);
+//            return cpuPlayedCard;
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//            return null;
+//        }
+//    }
 
     public void playCardFromHand() {
-        System.out.println("\nThinking...");
+        System.out.println("\nCPU is thinking...");
         Random random = new Random();
         int randomIndex = random.nextInt(playableCards.size());
-        System.out.println("CPU PLAYED CARD (playFromHand before): " + cpuPlayedCard);
         cpuPlayedCard = playableCards.get(randomIndex);
-        System.out.println("CPU PLAYED CARD (playFromHand after): " + cpuPlayedCard);
         currentHand.remove(cpuPlayedCard);
     }
 
-    public Card cpuTakeTurn(int cardValue, String cardSuit, List<Card> pickUpCard) {
+    public List<Card> cpuTakeTurn(int cardValue, String cardSuit, String cardSymbol, List<Card> pickUpCard) {
+        playedCards.clear();
+        this.suit = cardSuit;
+        this.symbol = cardSymbol;
+
         BlackJackMain.setComputerTurn(true);
         BlackJackMain.setPlayerTurn(false);
 
@@ -91,25 +96,47 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         Random random = new Random();
         int randomIndex = random.nextInt(cpuResponsesPicking.length);
 
-        if(!playableCards.isEmpty()) {
+        if (!playableCards.isEmpty()) {
             playCardFromHand();
             System.out.println(cpuResponsesPlaying[randomIndex]);
-            BlackJackMain.setComputerTurn(false);
-            System.out.println("CPU PLAYED CARD (take turn): " + cpuPlayedCard);
-            return getCpuPlayedCard();
+            playedCards.add(cpuPlayedCard);
+            handlePowerCard(playedCards);
+            System.out.println("I played: " + playedCards);
         } else {
-            System.out.println("\nThinking...");
+            System.out.println("\nCPU is thinking...");
             System.out.println(cpuResponsesPicking[randomIndex]);
             addCardsToHand(pickUpCard);
-            BlackJackMain.setComputerTurn(false);
         }
+
+        BlackJackMain.setComputerTurn(false);
+
+        // ADD ANOTHER CHECK HERE TO SEE WHAT CARD CPU PICKED.
+        // IF CARD IS A, Q, K, J (RED & BLACK) THEN SOMETHING HAPPENS
+        // WRITE THIS IN ANOTHER METHOD AND THEN INVOKED THIS METHOD HERE IN THE "TAKE TURN" METHOD
 
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
-            return null;
         }
-        return null;
+        return playedCards;
+    }
+
+    private boolean isPowerCard(String symbol) {
+        return "A".equals(symbol) || "K".equals(symbol) || "Q".equals(symbol) ||
+                "J".equals(symbol) || "8".equals(symbol) || "2".equals(symbol);
+    }
+
+    public void handlePowerCard(List<Card> playedCards) {
+        Random random = new Random();
+        int randomIndex = random.nextInt(currentHand.size());
+        if (isPowerCard(cpuPlayedCard.getSymbol())) {
+            if ("Q".equals(cpuPlayedCard.getSymbol())) {
+                Card extraCard = currentHand.get(randomIndex);
+                System.out.println("I played a " + cpuPlayedCard + ", so my extra card is a: " + extraCard);
+                currentHand.remove(extraCard);
+                playedCards.add(extraCard);
+            }
+        }
     }
 }

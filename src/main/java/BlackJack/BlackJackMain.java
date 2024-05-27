@@ -5,8 +5,6 @@ import BlackJack.Commands.ChooseCardCommandRunner;
 import BlackJack.PlayerBlackJack.ComputerPlayerBlackJack;
 import BlackJack.PlayerBlackJack.PlayerBlackJack;
 import CommandRunner.WelcomeScreenCommands;
-import Player.Player;
-import Player.ComputerPlayer;
 import Card.Card;
 import Deck.Deck;
 
@@ -71,12 +69,13 @@ public class BlackJackMain {
 
         // player should see picture cards eventually and not array of cards
 
-        // 1 card should be dealt in the middle, to begin, but it can't be Ace, J, Q or K
+        // 1 card should be dealt in the middle, to begin, but it can't be A, J, Q or K
 
         List<Card> playingCard = deck.dealCard(1); // can this be merged into one line with bottom line?
         Card currentCard = playingCard.get(0);
         int cardValue = currentCard.getValue();
         String cardSuit = currentCard.getSuit();
+        String cardSymbol = currentCard.getSymbol();
 
         List<Card> playableCards = player.determinePlayableCards(playerHand, cardValue, cardSuit);
 
@@ -100,6 +99,7 @@ public class BlackJackMain {
             System.out.println(currentCard = playingCard.get(playingCard.size() - 1));
             cardValue = currentCard.getValue();
             cardSuit = currentCard.getSuit();
+            cardSymbol = currentCard.getSymbol();
             playerHand = player.getCurrentHand();
             playableCards = player.determinePlayableCards(playerHand, cardValue, cardSuit);
             List<Card> pickUpCard = deck.dealCard(1);
@@ -119,15 +119,13 @@ public class BlackJackMain {
                 if (userPickingFromDeck) {
                     List<Card> newCard = deck.dealCard(1);
                     player.addCardsToHand(newCard);
-                    Card cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
-                    System.out.println("CPU ONE PICKED: " + cpuOnePlayedCard);
-                    if (cpuOnePlayedCard != null ) {
-                        playingCard.add(cpuOnePlayedCard);
+                    List<Card> cpuOnePlayedCards = cpuOne.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
+                    if (cpuOnePlayedCards != null ) {
+                        playingCard.addAll(cpuOnePlayedCards);
                     }
-                    Card cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
-                    System.out.println("CPU TWO PICKED: " + cpuTwoPlayedCard);
-                    if (cpuTwoPlayedCard != null ) {
-                        playingCard.add(cpuTwoPlayedCard);
+                    List<Card> cpuTwoPlayedCards = cpuTwo.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
+                    if (cpuTwoPlayedCards != null ) {
+                        playingCard.addAll(cpuTwoPlayedCards);
                     }
 
                     // turn ends here and it should go back to computer turn
@@ -135,15 +133,13 @@ public class BlackJackMain {
                 } else {
                     player.playCardFromHand(userChoice, playableCards);
                     playingCard.add(player.getUserPlayedCard());
-                    Card cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
-                    System.out.println("CPU ONE PICKED: " + cpuOnePlayedCard);
+                    List<Card> cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
                     if (cpuOnePlayedCard != null ) {
-                        playingCard.add(cpuOnePlayedCard);
+                        playingCard.addAll(cpuOnePlayedCard);
                     }
-                    Card cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
-                    System.out.println("CPU TWO PICKED: " + cpuTwoPlayedCard);
+                    List<Card> cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
                     if (cpuTwoPlayedCard != null ) {
-                        playingCard.add(cpuTwoPlayedCard);
+                        playingCard.addAll(cpuTwoPlayedCard);
                     }
 
 //                    System.out.println("\nLast Played card: " + playingCard.get(playingCard.size() - 1));
@@ -152,15 +148,13 @@ public class BlackJackMain {
             } else {
                 System.out.println("\nIt's your turn but you can't play anything, you'll have to pick up a card");
                 player.addCardsToHand(pickUpCard);
-                Card cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
-                System.out.println("CPU ONE PICKED: " + cpuOnePlayedCard);
+                List<Card> cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
                 if (cpuOnePlayedCard != null ) {
-                    playingCard.add(cpuOnePlayedCard);
+                    playingCard.addAll(cpuOnePlayedCard);
                 }
-                Card cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, pickUpCard);
-                System.out.println("CPU TWO PICKED: " + cpuTwoPlayedCard);
+                List<Card> cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
                 if (cpuTwoPlayedCard != null ) {
-                    playingCard.add(cpuTwoPlayedCard);
+                    playingCard.addAll(cpuTwoPlayedCard);
                 }
 
                 // turn ends here and it should go back to computer turn

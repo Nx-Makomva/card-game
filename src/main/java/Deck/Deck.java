@@ -48,7 +48,6 @@ public class Deck {
                     shuffleDeck();
                 }
             }
-            System.out.println(deckOfCards.size());
             return dealtCards;
         }
 
@@ -89,8 +88,6 @@ public class Deck {
             for (Card card : deckOfCards) {
                 System.out.println(card);
             }
-
-            System.out.println(deckOfCards.size());
         }
     }
 
