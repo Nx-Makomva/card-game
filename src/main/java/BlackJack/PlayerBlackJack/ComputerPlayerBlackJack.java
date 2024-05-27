@@ -2,6 +2,7 @@ package BlackJack.PlayerBlackJack;
 
 import BlackJack.BlackJackMain;
 import Card.Card;
+import Deck.Deck;
 import Player.ComputerPlayer;
 
 import java.util.ArrayList;
@@ -9,12 +10,14 @@ import java.util.List;
 import java.util.Random;
 
 public class ComputerPlayerBlackJack extends ComputerPlayer {
-    private String suit;
-    private String symbol;
+    private final Deck deck;
+    private final String NAME;
+    private final List<Card> PICKUP_CARD;
+    private boolean endTurnEarly = false;
     protected Card cpuPlayedCard = null;
-    List<Card> playedCards = new ArrayList<>();
-    List<Card> playableCards = new ArrayList<>();
-    String[] cpuResponsesPicking = {
+    private List<Card> playedCards = new ArrayList<>();
+    private List<Card> playableCards = new ArrayList<>();
+    private final String[] CPU_RESPONSES_PICKING = {
             "This card’s not for you just yet. Let’s see what else I can pick up.\n",
             "Why reveal my hand when I can draw a mystery card?\n",
             "Strategically, it's better to hold this one and see what the deck offers.\n",
@@ -22,17 +25,17 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
             "I’m not about to make your life easy. Drawing a new card!\n",
             "Like I’d play this one right now. I’ll draw instead.\n",
             "Let’s keep things interesting. Drawing a new card!\n",
-            "Guess what? I'm feeling mischievous today. Let's swap this for a mystery card!\n",
+            "Guess what? I'm feeling mischievous today. Let's pick up a mystery card!\n",
             "You think I’ll just hand you victory? Dream on! New card, please!\n",
             "You think you’ve got me figured out? Not even close! Let’s shake things up with a new card!\n",
             "Sorry, but I'm allergic to losing. Let's grab a new card, shall we?\n",
             "It's all about perspective, isn't it? I see an opportunity for improvement. To the deck!\n",
             "You know what they say: out with the old, in with the... better! I'll take a new card.\n",
-            "Decisions, decisions! But I think I'll spice things up with a shiny new card.\n",
+            "Decisions, decisions! But I think I'll spice things up by picking a shiny new card.\n",
             "A new card, you say? Don't mind if I do! Let's shake things up a bit.\n"
     };
 
-    String[] cpuResponsesPlaying = {
+    private final String[] CPU_RESPONSES_PLAYING = {
             "Whatever you thought, THINK AGAIN! Here’s something different.\n",
             "Don’t get too comfortable. I’m switching things up with this card.\n",
             "Variety is the spice of life, right? Here’s a different card to keep things spicy.\n",
@@ -41,7 +44,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
             "PIKACHU! I CHOOSE YOU! ...\n",
             "I suppose this will do\n",
             "I don't see you winning so it doesn't really matter what I put down\n",
-            "Okay, I'm done.. your turn\n",
+            "Okay, I'm done...\n",
             "You should maybe play with real friends at some point\n",
             "How long do you plan on playing? Maybe call this quits and touch some grass...\n",
             "Don't think too hard about your next move, I never do.\n",
@@ -50,75 +53,79 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
             "You seem nervous...\n"
     };
 
-    // update cpu current hand
-
-    public ComputerPlayerBlackJack(List<Card> currentHandHand) {
+    public ComputerPlayerBlackJack(List<Card> currentHandHand, Deck deck, String name) {
         super(currentHandHand);
+        this.deck = deck;
+        this.PICKUP_CARD = deck.dealCard(1);
+        this.NAME = name;
     }
 
-    public void determinePlayableCards(List<Card> cpuHand, int cardValue, String cardSuit) {
+    public void setEndTurnEarly(boolean endTurnEarly) {
+        this.endTurnEarly = endTurnEarly;
+    }
+
+    public void determinePlayableCards(List<Card> cpuHand, String cardSymbol, String cardSuit) {
         playableCards.clear();
         for (Card card : cpuHand) {
-            if (card.getValue() == cardValue || card.getSuit().equals(cardSuit)) {
+            if (card.getSymbol().equals(cardSymbol) || card.getSuit().equals(cardSuit)) {
                 playableCards.add(card);
             }
         }
     }
 
-//    public Card getCpuPlayedCard() {
-//        try {
-//            Thread.sleep(3000);
-//            System.out.println("I played: " + cpuPlayedCard);
-//            return cpuPlayedCard;
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
-
     public void playCardFromHand() {
-        System.out.println("\nCPU is thinking...");
+        System.out.println("\n " + NAME + " is thinking...");
         Random random = new Random();
         int randomIndex = random.nextInt(playableCards.size());
         cpuPlayedCard = playableCards.get(randomIndex);
         currentHand.remove(cpuPlayedCard);
     }
 
-    public List<Card> cpuTakeTurn(int cardValue, String cardSuit, String cardSymbol, List<Card> pickUpCard) {
+    public List<Card> cpuTakeTurn(Card currentCard) {
+        if (deck == null) {
+            throw new IllegalStateException("Deck is not initialized");
+        }
+
         playedCards.clear();
-        this.suit = cardSuit;
-        this.symbol = cardSymbol;
+        String cardSymbol = currentCard.getSymbol();
+        String cardSuit = currentCard.getSuit();
 
-        BlackJackMain.setComputerTurn(true);
-        BlackJackMain.setPlayerTurn(false);
-
-        determinePlayableCards(currentHand, cardValue, cardSuit);
+        determinePlayableCards(currentHand, cardSymbol, cardSuit);
         Random random = new Random();
-        int randomIndex = random.nextInt(cpuResponsesPicking.length);
+        int randomIndex = random.nextInt(CPU_RESPONSES_PICKING.length);
 
         if (!playableCards.isEmpty()) {
             playCardFromHand();
-            System.out.println(cpuResponsesPlaying[randomIndex]);
             playedCards.add(cpuPlayedCard);
-            handlePowerCard(playedCards);
-            System.out.println("I played: " + playedCards);
+            handlePowerCard(playedCards, currentCard);
+
+            if (endTurnEarly) {
+                return null;
+            }
+
+            System.out.println(CPU_RESPONSES_PLAYING[randomIndex]);
+            System.out.println(NAME + " played: " + playedCards);
+            BlackJackMain.setPickedUp(false);
+
         } else {
-            System.out.println("\nCPU is thinking...");
-            System.out.println(cpuResponsesPicking[randomIndex]);
-            addCardsToHand(pickUpCard);
+            System.out.println("\n " + NAME + " is thinking...");
+            handlePowerCard(playedCards, currentCard);
+            if (endTurnEarly) {
+                BlackJackMain.setPickedUp(true);
+                return null;
+            }
+
+            System.out.println(NAME + ": " + CPU_RESPONSES_PICKING[randomIndex]);
+            addCardsToHand(PICKUP_CARD);
+            System.out.println(NAME + " picked up a card.");
         }
-
-        BlackJackMain.setComputerTurn(false);
-
-        // ADD ANOTHER CHECK HERE TO SEE WHAT CARD CPU PICKED.
-        // IF CARD IS A, Q, K, J (RED & BLACK) THEN SOMETHING HAPPENS
-        // WRITE THIS IN ANOTHER METHOD AND THEN INVOKED THIS METHOD HERE IN THE "TAKE TURN" METHOD
 
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
         return playedCards;
     }
 
@@ -127,15 +134,59 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                 "J".equals(symbol) || "8".equals(symbol) || "2".equals(symbol);
     }
 
-    public void handlePowerCard(List<Card> playedCards) {
+    public void handlePowerCard(List<Card> playedCards, Card currentCard) {
+        System.out.println("Handle powerCard triggered");
         Random random = new Random();
-        int randomIndex = random.nextInt(currentHand.size());
-        if (isPowerCard(cpuPlayedCard.getSymbol())) {
-            if ("Q".equals(cpuPlayedCard.getSymbol())) {
-                Card extraCard = currentHand.get(randomIndex);
-                System.out.println("I played a " + cpuPlayedCard + ", so my extra card is a: " + extraCard);
-                currentHand.remove(extraCard);
-                playedCards.add(extraCard);
+        int randomIndex;
+        Card extraCard;
+
+        if (cpuPlayedCard != null && isPowerCard(cpuPlayedCard.getSymbol())) {
+            if ("Q".equals(cpuPlayedCard.getSymbol()) || "A".equals(cpuPlayedCard.getSymbol())) {
+                if (!currentHand.isEmpty()) {
+                    randomIndex = random.nextInt(currentHand.size());
+                    extraCard = currentHand.get(randomIndex);
+                    currentHand.remove(extraCard);
+                    playedCards.add(extraCard);
+                    BlackJackMain.setPickedUp(false);
+                } else {
+                    addCardsToHand(PICKUP_CARD);
+                    BlackJackMain.setPickedUp(true);
+                }
+            }
+        } else if (isPowerCard(currentCard.getSymbol())) {
+            System.out.println("Handle powerCard: checking card in play");
+            System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
+            if ("8".equals(currentCard.getSymbol())) {
+                if (BlackJackMain.isPickedUp()) {
+                    BlackJackMain.setPickedUp(false);
+                } else {
+                    System.out.println("Oh...It's a conspiracy... my turn has been skipped");
+                    BlackJackMain.setPickedUp(true);
+                    setEndTurnEarly(true);
+                }
+            } else if ("2".equals(currentCard.getSymbol())) {
+                System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
+                if (BlackJackMain.isPickedUp()) {
+                    BlackJackMain.setPickedUp(false);
+                } else {
+                    System.out.println("I needed more cards anyway, thanks.");
+                    addCardsToHand(deck.dealCard(2));
+                    System.out.println(NAME + " picked up 2 cards");
+                    setEndTurnEarly(true);
+                    BlackJackMain.setPickedUp(true);
+                }
+            } else if ("J".equals(currentCard.getSymbol()) && ("Spades".equals(currentCard.getSuit()) || "Clubs".equals(currentCard.getSuit()))) {
+                System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
+                if (BlackJackMain.isPickedUp()) {
+                    BlackJackMain.setPickedUp(false);
+                } else {
+                    // needs to know if player before picked up a card or not
+                    System.out.println("I see my enemies are alive and well");
+                    addCardsToHand(deck.dealCard(5));
+                    System.out.println(NAME + " picked up 5 cards");
+                    setEndTurnEarly(true);
+                    BlackJackMain.setPickedUp(true);
+                }
             }
         }
     }

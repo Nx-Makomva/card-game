@@ -13,7 +13,6 @@ public class PlayerBlackJack extends Player {
     public PlayerBlackJack (String playerName, boolean isHuman) {
         this.playerName = playerName;
         this.isHuman = isHuman;
-        this.playerScore = 0; // initialise to 0
         this.currentHand = new ArrayList<>();
     }
 
@@ -31,7 +30,13 @@ public class PlayerBlackJack extends Player {
         System.out.println("Your new hand is: " + currentHand);
     }
 
-    public List<Card> determinePlayableCards(List<Card> playerHand, int cardValue, String cardSuit) {
+    public List<Card> determinePlayableCards(List<Card> playerHand, Card currentCard) {
+
+        int cardValue = currentCard.getValue();
+        String cardSuit = currentCard.getSuit();
+        String cardSymbol = currentCard.getSymbol();
+
+
         List<Card> playableCards = new ArrayList<>();
         for (Card card : playerHand) {
             if (card.getValue() == cardValue || card.getSuit().equals(cardSuit)) {

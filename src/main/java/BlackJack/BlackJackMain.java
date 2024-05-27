@@ -14,16 +14,10 @@ import java.util.List;
 public class BlackJackMain {
 
     private static boolean gameOver = true;
-    private static boolean computerTurn = false;
-    private static boolean playerTurn = true;
+    private static boolean pickedUp = false;
 
-    public static void setComputerTurn(boolean computerTurn) {
-        BlackJackMain.computerTurn = computerTurn;
-    }
 
-    public static void setPlayerTurn(boolean playerTurn) {
-        BlackJackMain.playerTurn = playerTurn;
-    }
+
 
     public static boolean isGameOver() {
         return gameOver;
@@ -32,6 +26,16 @@ public class BlackJackMain {
     public static void setGameOver(boolean gameOver) {
         BlackJackMain.gameOver = gameOver;
     }
+
+    public static boolean isPickedUp() {
+        return pickedUp;
+    }
+
+    public static void setPickedUp(boolean pickedUp) {
+        BlackJackMain.pickedUp = pickedUp;
+    }
+
+
 
     public static void startGame() {
         Deck deck = new Deck();
@@ -61,8 +65,8 @@ public class BlackJackMain {
             cpuTwoHand.add(deck.dealCard(1).get(0));
         }
 
-        ComputerPlayerBlackJack cpuOne = new ComputerPlayerBlackJack(cpuOneHand);
-        ComputerPlayerBlackJack cpuTwo = new ComputerPlayerBlackJack(cpuTwoHand);
+        ComputerPlayerBlackJack cpuOne = new ComputerPlayerBlackJack(cpuOneHand, deck, "CPU One");
+        ComputerPlayerBlackJack cpuTwo = new ComputerPlayerBlackJack(cpuTwoHand, deck, "CPU Two");
         player.setCurrentHand(playerHand);
 
         System.out.println("Here are your cards: \n " + player.getCurrentHand());
@@ -71,13 +75,11 @@ public class BlackJackMain {
 
         // 1 card should be dealt in the middle, to begin, but it can't be A, J, Q or K
 
-        List<Card> playingCard = deck.dealCard(1); // can this be merged into one line with bottom line?
-        Card currentCard = playingCard.get(0);
-        int cardValue = currentCard.getValue();
-        String cardSuit = currentCard.getSuit();
-        String cardSymbol = currentCard.getSymbol();
+        List<Card> playingCard = deck.dealCard(1);
 
-        List<Card> playableCards = player.determinePlayableCards(playerHand, cardValue, cardSuit);
+        Card currentCard = playingCard.get(0);
+
+        List<Card> playableCards = player.determinePlayableCards(playerHand, currentCard);
 
         List<String> cardStrings = new ArrayList<>();
         for (Card card : playableCards) {
@@ -91,18 +93,12 @@ public class BlackJackMain {
         do {
             // run player turn at the start of each loop. turn terminates when choice is made
             //  could just have a boolean flag to tell if its user turn or not
-            playerTurn = true;
-            computerTurn = false;
-
 
             System.out.print("\nThe card in the middle is: \n");
             System.out.println(currentCard = playingCard.get(playingCard.size() - 1));
-            cardValue = currentCard.getValue();
-            cardSuit = currentCard.getSuit();
-            cardSymbol = currentCard.getSymbol();
+
             playerHand = player.getCurrentHand();
-            playableCards = player.determinePlayableCards(playerHand, cardValue, cardSuit);
-            List<Card> pickUpCard = deck.dealCard(1);
+            playableCards = player.determinePlayableCards(playerHand, currentCard);
 
             List<String> resetCommands = chooseCardCommandRunner.resetCommands(cardStrings, playableCards);
             cardStringsArray = resetCommands.toArray(cardStrings.toArray(new String[0]));
@@ -117,51 +113,53 @@ public class BlackJackMain {
                 int userChoice = chooseCardCommandRunner.getUserSelection() - 1;
 
                 if (userPickingFromDeck) {
-                    List<Card> newCard = deck.dealCard(1);
-                    player.addCardsToHand(newCard);
-                    List<Card> cpuOnePlayedCards = cpuOne.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
+                    player.addCardsToHand(deck.dealCard(1));
+                    pickedUp = true;
+                    currentCard = playingCard.get(playingCard.size() - 1);
+                    List<Card> cpuOnePlayedCards = cpuOne.cpuTakeTurn(currentCard);
                     if (cpuOnePlayedCards != null ) {
                         playingCard.addAll(cpuOnePlayedCards);
+                        currentCard = playingCard.get(playingCard.size() - 1);
                     }
-                    List<Card> cpuTwoPlayedCards = cpuTwo.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
+
+                    List<Card> cpuTwoPlayedCards = cpuTwo.cpuTakeTurn(currentCard);
                     if (cpuTwoPlayedCards != null ) {
                         playingCard.addAll(cpuTwoPlayedCards);
                     }
 
-                    // turn ends here and it should go back to computer turn
-                    // run computer turn
                 } else {
                     player.playCardFromHand(userChoice, playableCards);
                     playingCard.add(player.getUserPlayedCard());
-                    List<Card> cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
-                    if (cpuOnePlayedCard != null ) {
-                        playingCard.addAll(cpuOnePlayedCard);
-                    }
-                    List<Card> cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
-                    if (cpuTwoPlayedCard != null ) {
-                        playingCard.addAll(cpuTwoPlayedCard);
+                    pickedUp = false;
+                    currentCard = playingCard.get(playingCard.size() - 1);
+                    List<Card> cpuOnePlayedCards = cpuOne.cpuTakeTurn(currentCard);
+                    if (cpuOnePlayedCards != null ) {
+                        playingCard.addAll(cpuOnePlayedCards);
+                        currentCard = playingCard.get(playingCard.size() - 1);
                     }
 
-//                    System.out.println("\nLast Played card: " + playingCard.get(playingCard.size() - 1));
-                    // turn ends here and it should go back to computer turn
+                    List<Card> cpuTwoPlayedCards = cpuTwo.cpuTakeTurn(currentCard);
+                    if (cpuTwoPlayedCards != null ) {
+                        playingCard.addAll(cpuTwoPlayedCards);
+                    }
+
                 }
             } else {
                 System.out.println("\nIt's your turn but you can't play anything, you'll have to pick up a card");
-                player.addCardsToHand(pickUpCard);
-                List<Card> cpuOnePlayedCard = cpuOne.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
-                if (cpuOnePlayedCard != null ) {
-                    playingCard.addAll(cpuOnePlayedCard);
-                }
-                List<Card> cpuTwoPlayedCard = cpuTwo.cpuTakeTurn(cardValue, cardSuit, cardSymbol, pickUpCard);
-                if (cpuTwoPlayedCard != null ) {
-                    playingCard.addAll(cpuTwoPlayedCard);
+                player.addCardsToHand(deck.dealCard(1));
+                pickedUp = true;
+                currentCard = playingCard.get(playingCard.size() - 1);
+                List<Card> cpuOnePlayedCards = cpuOne.cpuTakeTurn(currentCard);
+                if (cpuOnePlayedCards != null ) {
+                    playingCard.addAll(cpuOnePlayedCards);
+                    currentCard = playingCard.get(playingCard.size() - 1);
                 }
 
-                // turn ends here and it should go back to computer turn
+                List<Card> cpuTwoPlayedCards = cpuTwo.cpuTakeTurn(currentCard);
+                if (cpuTwoPlayedCards != null ) {
+                    playingCard.addAll(cpuTwoPlayedCards);
+                }
             }
-
-            // have a player class that takes in cards and accumulates the value of those cards.
-            // If they go above 21 then they bust. If below 17 then they must keep drawing
         } while (!gameOver);
 
     }

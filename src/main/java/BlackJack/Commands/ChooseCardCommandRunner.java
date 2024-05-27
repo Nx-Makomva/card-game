@@ -27,15 +27,16 @@ public class ChooseCardCommandRunner extends CommandRunner {
         }
         cardStrings.add("Pick up a card");
 
+        this.userPickUpCard = false;
         return cardStrings;
     }
 
     @Override
     protected void handleUserSelection(int userSelection) {
+        // method invoked to check if middle card is a power card and if it is, user turn ends early or they play again
         if (userSelection == this.commands.length) {
             printMessage("\n Picking up from the Deck...\n");
             this.userPickUpCard = true;
-            // figure out how to have command runner pass this info back
         } else {
             this.userSelection = userSelection;
         }
@@ -47,6 +48,11 @@ public class ChooseCardCommandRunner extends CommandRunner {
 
     public int getUserSelection() {
         return userSelection;
+    }
+
+    @Override
+    public void runCommands() {
+        super.runCommands();
     }
 
 

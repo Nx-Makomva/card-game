@@ -39,14 +39,10 @@ public class Card {
         this.value = value;
     }
 
-    // method to return a list of suits that are valid for card objects
-    // static because does not need to have a card object to be called/used
     public static List<String> getAllSuits(){
         return Arrays.asList("Spades", "Clubs", "Hearts", "Diamonds");
     }
 
-    // method to return a list of symbols that are valid for card objects
-    // static because does not need to have a card object to be called/used
     public static List<String> getAllSymbols(){
         return Arrays.asList("A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K");
     }
