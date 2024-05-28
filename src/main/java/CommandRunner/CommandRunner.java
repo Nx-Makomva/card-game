@@ -53,7 +53,7 @@ protected int readUserInput(int limit) {
                 return userSelection;
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             printMessage("Please enter a number between 1 and " + limit);
         }
     }

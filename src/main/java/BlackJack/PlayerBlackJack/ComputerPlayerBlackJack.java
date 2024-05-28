@@ -8,6 +8,7 @@ import Player.ComputerPlayer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ComputerPlayerBlackJack extends ComputerPlayer {
     private final Deck deck;
@@ -84,12 +85,13 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
             String cardSuit = currentCard.getSuit();
 
             determinePlayableCards(currentHand, cardSymbol, cardSuit);
-            Random random = new Random();
-            int randomIndex = random.nextInt(CPU_RESPONSES_PICKING.length);
+
+            int randomIndexPicking = ThreadLocalRandom.current().nextInt(CPU_RESPONSES_PICKING.length);
+            int randomIndexPlaying = ThreadLocalRandom.current().nextInt(CPU_RESPONSES_PLAYING.length);
 
             if (!playableCards.isEmpty()) {
                 System.out.println("\n " + NAME + " is thinking...");
-                int randomCardIndex = random.nextInt(playableCards.size());
+                int randomCardIndex = ThreadLocalRandom.current().nextInt(playableCards.size());
                 cpuPlayedCard = playableCards.get(randomCardIndex);
                 currentHand.remove(cpuPlayedCard);
                 playedCards.add(cpuPlayedCard);
@@ -99,7 +101,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                     return null;
                 }
 
-                System.out.println(CPU_RESPONSES_PLAYING[randomIndex]);
+                System.out.println(CPU_RESPONSES_PLAYING[randomIndexPlaying]);
                 System.out.println(NAME + " played: " + playedCards);
                 BlackJackMain.setPickedUp(false);
 
@@ -112,7 +114,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                     return null;
                 }
 
-                System.out.println(NAME + ": " + CPU_RESPONSES_PICKING[randomIndex]);
+                System.out.println(NAME + ": " + CPU_RESPONSES_PICKING[randomIndexPicking]);
                 addCardsToHand(PICKUP_CARD);
                 System.out.println(NAME + " picked up a card.");
             }
