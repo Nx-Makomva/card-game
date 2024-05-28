@@ -167,7 +167,6 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                 if (BlackJackMain.isPickedUp()) {
                     BlackJackMain.setPickedUp(false);
                 } else {
-                    // needs to know if player before picked up a card or not
                     System.out.println("I see my enemies are alive and well");
                     addCardsToHand(deck.dealCard(5));
                     System.out.println(NAME + " picked up 5 cards");

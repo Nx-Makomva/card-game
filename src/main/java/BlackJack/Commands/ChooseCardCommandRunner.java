@@ -1,25 +1,20 @@
 package BlackJack.Commands;
 
-import BlackJack.BlackJackMain;
 import BlackJack.PlayerBlackJack.PlayerBlackJack;
 import Card.Card;
 import CommandRunner.CommandRunner;
-import Deck.Deck;
 
 import java.util.List;
 
 public class ChooseCardCommandRunner extends CommandRunner {
-//    private final Deck deck;
+
     private boolean userPickUpCard = false;
     private int userSelection;
     private String[] chooseCardCommands;
-    private PlayerBlackJack currentPlayer;
 
     public ChooseCardCommandRunner(String[] chooseCardCommands, String title, PlayerBlackJack currentPlayer) {
         super(chooseCardCommands, "Picking a card");
         this.chooseCardCommands = chooseCardCommands;
-        this.currentPlayer = currentPlayer;
-//        this.deck = deck;
     }
 
     public void setChooseCardCommands(String[] newCommands) {
@@ -40,7 +35,6 @@ public class ChooseCardCommandRunner extends CommandRunner {
 
     @Override
     protected void handleUserSelection(int userSelection) {
-        // method invoked to check if middle card is a power card and if it is, user turn ends early or they play again
         if (userSelection == this.commands.length) {
             printMessage("\n Picking up from the Deck...\n");
             this.userPickUpCard = true;

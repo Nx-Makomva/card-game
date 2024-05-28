@@ -1,6 +1,5 @@
 package BlackJack;
 
-
 import BlackJack.Commands.ChooseCardCommandRunner;
 import BlackJack.Instructions.Instructions;
 import BlackJack.PlayerBlackJack.ComputerPlayerBlackJack;
@@ -19,9 +18,6 @@ public class BlackJackMain {
     private static boolean gameOver = true;
     private static boolean pickedUp = false;
 
-
-
-
     public static boolean isGameOver() {
         return gameOver;
     }
@@ -39,7 +35,6 @@ public class BlackJackMain {
     }
 
 
-
     public static void startGame() {
         Deck deck = new Deck();
         deck.shuffleDeck();
@@ -50,7 +45,7 @@ public class BlackJackMain {
         welcome.runCommands();
 
         if (!welcome.shouldContinue()) {
-            return; // Exit the game if shouldContinue() returns false
+            return;
         }
 
         instructions.showInstructions();
@@ -72,8 +67,6 @@ public class BlackJackMain {
 
         // player should see picture cards eventually and not array of cards
 
-        // 1 card should be dealt in the middle, to begin, but it can't be A, J, Q or K
-
         List<String> invalidCards = Arrays.asList("A", "K", "Q", "J", "2");
         List<Card> middleCard;
         do {
@@ -94,9 +87,6 @@ public class BlackJackMain {
 
         boolean userTurnSkipped;
         do {
-            // run player turn at the start of each loop. turn terminates when choice is made
-            //  could just have a boolean flag to tell if its user turn or not
-
             System.out.print("\nThe card in the middle is: \n");
             System.out.println(currentCard = middleCard.get(middleCard.size() - 1));
 
@@ -105,7 +95,6 @@ public class BlackJackMain {
 
             List<String> resetCommands = chooseCardCommandRunner.resetCommands(cardStrings, playableCards);
             cardStringsArray = resetCommands.toArray(cardStrings.toArray(new String[0]));
-
 
             userTurnSkipped = false;
 
@@ -208,7 +197,6 @@ public class BlackJackMain {
                     middleCard.addAll(cpuTwoPlayedCards);
                 }
             }
-
 
             if (playerHand.isEmpty() || cpuOneHand.isEmpty() || cpuTwoHand.isEmpty()) {
                 gameOver = true;
