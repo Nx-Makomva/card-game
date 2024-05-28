@@ -65,7 +65,18 @@ public class BlackJackMain {
         ComputerPlayerBlackJack cpuTwo = new ComputerPlayerBlackJack(cpuTwoHand, deck, "CPU Two");
         player.setCurrentHand(playerHand);
 
+
+
+
+
         // player should see picture cards eventually and not array of cards
+
+
+
+
+
+
+
 
         List<String> invalidCards = Arrays.asList("A", "K", "Q", "J", "2");
         List<Card> middleCard;

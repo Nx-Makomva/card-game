@@ -28,10 +28,45 @@ public class Deck {
                     value = 0;
                 }
                 value++;
-                deckOfCards.add(new Card(suit, symbol, value));
+                Card card = new Card(suit, symbol, value);
+                deckOfCards.add(card);
+                printCardVisual(card);
             }
         }
     }
+    private void printCardVisual(Card card) {
+        System.out.print("        _____      ");
+
+        System.out.println();
+
+        if (card.getSymbol().equals("10")) {
+            System.out.print("       |" + card.getSymbol() + "   |    ");
+        } else {
+            System.out.print("       |" + card.getSymbol() + "    |    ");
+        }
+
+        System.out.println();
+
+        switch (card.getSuit()) {
+            case "Clubs":
+                System.out.print("       |  ♣  |    ");
+                break;
+            case "Diamonds":
+                System.out.print("       |  ♦  |    ");
+                break;
+            case "Hearts":
+                System.out.print("       |  ♥  |    ");
+                break;
+            case "Spades":
+                System.out.print("       |  ♠  |    ");
+                break;
+        }
+
+        System.out.println();
+        System.out.print("       |____ |    ");
+        System.out.println();
+    }
+
 
         public List<Card> dealCard (int numberOfCards) {
         List<Card> dealtCards = new ArrayList<>();
