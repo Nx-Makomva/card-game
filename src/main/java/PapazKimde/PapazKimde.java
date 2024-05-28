@@ -3,11 +3,11 @@ package PapazKimde;
 import Deck.Deck;
 import Card.Card;
 import Player.Player;
-import Player.ComputerPlayer;
-
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
+import java.util.Scanner;
 import java.util.stream.Collectors;
 
 
@@ -92,47 +92,80 @@ public class PapazKimde {
         }
     }
 
+    public Card pullCardFromPlayer(Player currentPlayer, Player targetPlayer, boolean isHuman) {
+        Random random = new Random();
+        Card pulledCard;
+
+        if (isHuman) {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+            System.out.println("You're pulling from " + targetPlayer.getName() + "'s deck. They have " + targetPlayer.getCurrentHand().size() + " cards.");
+            System.out.println("Pick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
+            int cardIndex = scanner.nextInt() - 1;
+            pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
+            System.out.println("You've taken " + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
+        } else {
+            int cardIndex = random.nextInt(targetPlayer.getCurrentHand().size());
+            pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
+            System.out.println(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName());
+        }
+        return pulledCard;
+    }
+
+
     public void playPapazKimde() {
         remove3Kings();
         numberOfPlayers = userInteraction.howManyPlayers();
         handleCreationOfUsers();
-        System.out.println("Players:");
         deckDeal();
-        for (Player player : players) {
-            System.out.println(player);
-            System.out.println("initial hand: " + player.getCurrentHand());
-        }
 
         // initial pair check and removal
         for (Player player : players) {
             player.pairRemoval();
-            System.out.println("pair removal : " + player.getCurrentHand());
         }
 
-        ///// loop
-        // method of pulling card from other player
-        // for human player, prompt which card they want to pull from next player
-        // you're pulling from so and so's deck, they have 9 cards, pick a number from 1-9 to pick one of their cards
-        // process input -> whatever card they've chosen, remove it from the player's hand and add it to their hand
-        // also sout "you have taken whatever from so and so's deck"
-        // for computer player, randomly select card from next person and ig print out "computer x has played their turn when it is over"
-        // method of check if any pairs, if pairs, remove, if no pairs, next player turn (computer or player2)
-        // repeat
+        boolean gameInProgress = true;
 
-        // end game:
-        // if only 2 players: one player reaches 0 cards in their list
-        // if more than two players: total number of players -1 reaches 0 cards in their list
-        // can make list of who finishes first
+        while (gameInProgress) {
+            for (int i = 0; i < players.size(); i++) {
+                Player currentPlayer = players.get(i);
+                // skip player if no cards
+                if (currentPlayer.getCurrentHand().isEmpty()) {
+                    continue;
+                }
 
+                Player targetPlayer = players.get((i + 1) % players.size());
+                if (targetPlayer.getCurrentHand().isEmpty()) {
+                    continue;
+                }
 
+                Card pulledCard = pullCardFromPlayer(currentPlayer, targetPlayer, currentPlayer.isHuman());
+                currentPlayer.addCardsToHand(List.of(pulledCard));
+                currentPlayer.pairRemoval();
+                System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+
+                if (currentPlayer.getCurrentHand().isEmpty()) {
+                    System.out.println(currentPlayer.getName() + " has finished their cards.");
+                }
+
+                // Check if the game should continue
+                long activePlayers = players.stream().filter(p -> !p.getCurrentHand().isEmpty()).count();
+                if (activePlayers <= 1) {
+                    gameInProgress = false;
+                    System.out.println("Game Over! The final standings are:");
+                    players.forEach(player -> System.out.println(player.getName() + " has " + player.getCurrentHand().size() + " cards left."));
+                    break;
+                }
+            }
+        }
+
+        // potential classes:
+
+        // game play/run through
+        // userinteraction
+        // userdisplay
+        // user as computer ? -> or always have player 2, and if no player is entered, then default to computer
+        // same for extra players -> if you want more players, you can add, if no information is given, default to computer
+        // should define maximum number of players
     }
-
-    // potential classes:
-
-    // game play/run through
-    // userinteraction
-    // userdisplay
-    // user as computer ? -> or always have player 2, and if no player is entered, then default to computer
-    // same for extra players -> if you want more players, you can add, if no information is given, default to computer
-    // should define maximum number of players
 }

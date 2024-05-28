@@ -48,6 +48,14 @@ public class Player {
         return currentHand;
     }
 
+    public boolean isHuman() {
+        return isHuman;
+    }
+
+    public void setHuman(boolean human) {
+        isHuman = human;
+    }
+
     // methods
 
     public int getHandValue() {
