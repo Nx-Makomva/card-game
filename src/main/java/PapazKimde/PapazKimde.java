@@ -92,7 +92,6 @@ public class PapazKimde {
         }
     }
 
-
     public void playPapazKimde() {
         remove3Kings();
         numberOfPlayers = userInteraction.howManyPlayers();
@@ -104,15 +103,19 @@ public class PapazKimde {
             System.out.println("initial hand: " + player.getCurrentHand());
         }
 
-//         initial pair check
+        // initial pair check and removal
         for (Player player : players) {
             player.pairRemoval();
             System.out.println("pair removal : " + player.getCurrentHand());
         }
 
-
         ///// loop
         // method of pulling card from other player
+        // for human player, prompt which card they want to pull from next player
+        // you're pulling from so and so's deck, they have 9 cards, pick a number from 1-9 to pick one of their cards
+        // process input -> whatever card they've chosen, remove it from the player's hand and add it to their hand
+        // also sout "you have taken whatever from so and so's deck"
+        // for computer player, randomly select card from next person and ig print out "computer x has played their turn when it is over"
         // method of check if any pairs, if pairs, remove, if no pairs, next player turn (computer or player2)
         // repeat
 
