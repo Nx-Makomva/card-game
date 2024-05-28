@@ -2,6 +2,7 @@ package BlackJack;
 
 
 import BlackJack.Commands.ChooseCardCommandRunner;
+import BlackJack.Instructions.Instructions;
 import BlackJack.PlayerBlackJack.ComputerPlayerBlackJack;
 import BlackJack.PlayerBlackJack.PlayerBlackJack;
 import CommandRunner.WelcomeScreenCommands;
@@ -11,6 +12,7 @@ import Deck.Deck;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
 
 public class BlackJackMain {
 
@@ -41,9 +43,9 @@ public class BlackJackMain {
     public static void startGame() {
         Deck deck = new Deck();
         deck.shuffleDeck();
-        // new instance of scanner here to grab users name
-        PlayerBlackJack player = new PlayerBlackJack("", true, deck);
-
+        String playerName = PlayerBlackJack.setPlayerName();
+        PlayerBlackJack player = new PlayerBlackJack(playerName, true, deck);
+        Instructions instructions = new Instructions(playerName);
         WelcomeScreenCommands welcome = new WelcomeScreenCommands();
         welcome.runCommands();
 
@@ -51,15 +53,7 @@ public class BlackJackMain {
             return; // Exit the game if shouldContinue() returns false
         }
 
-        // Things I need:
-        // - a wallet for the user's money amount
-        // - display class to show user their cards
-
-
-        // run a welcome page with instruction on how to play Black Jack
-
-        System.out.println("Welcome to black jack\n"); // eventually move this to a welcome screen - possibly one that reroutes from welcome command screen
-
+        instructions.showInstructions();
 
         List<Card> playerHand = new ArrayList<>();
         List<Card> cpuOneHand = new ArrayList<>();
