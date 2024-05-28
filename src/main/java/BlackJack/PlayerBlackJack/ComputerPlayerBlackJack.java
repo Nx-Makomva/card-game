@@ -73,64 +73,58 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
         }
     }
 
-//    public void playCardFromHand() {
-//        System.out.println("\n " + NAME + " is thinking...");
-//        Random random = new Random();
-//        int randomIndex = random.nextInt(playableCards.size());
-//        cpuPlayedCard = playableCards.get(randomIndex);
-//        currentHand.remove(cpuPlayedCard);
-//    }
-
     public List<Card> cpuTakeTurn(Card currentCard) {
-        if (deck == null) {
-            throw new IllegalStateException("Deck is not initialized");
-        }
-
-        playedCards.clear();
-        String cardSymbol = currentCard.getSymbol();
-        String cardSuit = currentCard.getSuit();
-
-        determinePlayableCards(currentHand, cardSymbol, cardSuit);
-        Random random = new Random();
-        int randomIndex = random.nextInt(CPU_RESPONSES_PICKING.length);
-
-        if (!playableCards.isEmpty()) {
-            System.out.println("\n " + NAME + " is thinking...");
-            int randomCardIndex = random.nextInt(playableCards.size());
-            cpuPlayedCard = playableCards.get(randomCardIndex);
-            currentHand.remove(cpuPlayedCard);
-            playedCards.add(cpuPlayedCard);
-            handlePowerCard(playedCards, currentCard);
-
-            if (endTurnEarly) {
-                return null;
+        synchronized (this) {
+            if (deck == null) {
+                throw new IllegalStateException("Deck is not initialized");
             }
 
-            System.out.println(CPU_RESPONSES_PLAYING[randomIndex]);
-            System.out.println(NAME + " played: " + playedCards);
-            BlackJackMain.setPickedUp(false);
+            playedCards.clear();
+            String cardSymbol = currentCard.getSymbol();
+            String cardSuit = currentCard.getSuit();
 
-        } else {
-            System.out.println("\n " + NAME + " is thinking...");
-            handlePowerCard(playedCards, currentCard);
+            determinePlayableCards(currentHand, cardSymbol, cardSuit);
+            Random random = new Random();
+            int randomIndex = random.nextInt(CPU_RESPONSES_PICKING.length);
 
-            if (endTurnEarly) {
-                BlackJackMain.setPickedUp(true);
-                return null;
+            if (!playableCards.isEmpty()) {
+                System.out.println("\n " + NAME + " is thinking...");
+                int randomCardIndex = random.nextInt(playableCards.size());
+                cpuPlayedCard = playableCards.get(randomCardIndex);
+                currentHand.remove(cpuPlayedCard);
+                playedCards.add(cpuPlayedCard);
+                handlePowerCard(playedCards, currentCard);
+
+                if (endTurnEarly) {
+                    return null;
+                }
+
+                System.out.println(CPU_RESPONSES_PLAYING[randomIndex]);
+                System.out.println(NAME + " played: " + playedCards);
+                BlackJackMain.setPickedUp(false);
+
+            } else {
+                System.out.println("\n " + NAME + " is thinking...");
+                handlePowerCard(playedCards, currentCard);
+
+                if (endTurnEarly) {
+                    BlackJackMain.setPickedUp(true);
+                    return null;
+                }
+
+                System.out.println(NAME + ": " + CPU_RESPONSES_PICKING[randomIndex]);
+                addCardsToHand(PICKUP_CARD);
+                System.out.println(NAME + " picked up a card.");
             }
 
-            System.out.println(NAME + ": " + CPU_RESPONSES_PICKING[randomIndex]);
-            addCardsToHand(PICKUP_CARD);
-            System.out.println(NAME + " picked up a card.");
-        }
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+            return playedCards;
         }
-
-        return playedCards;
     }
 
     private boolean isPowerCard(String symbol) {
@@ -139,7 +133,6 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
     }
 
     public void handlePowerCard(List<Card> playedCards, Card currentCard) {
-        System.out.println("Handle powerCard triggered");
         Random random = new Random();
         int randomIndex;
         Card extraCard;
@@ -158,10 +151,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                 }
             }
         } else if (isPowerCard(currentCard.getSymbol())) {
-            System.out.println("Handle powerCard: checking card in play");
-            System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
             if ("2".equals(currentCard.getSymbol())) {
-                System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
                 if (BlackJackMain.isPickedUp()) {
                     BlackJackMain.setPickedUp(false);
                 } else {
@@ -172,7 +162,6 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                     BlackJackMain.setPickedUp(true);
                 }
             } else if ("J".equals(currentCard.getSymbol()) && ("Spades".equals(currentCard.getSuit()) || "Clubs".equals(currentCard.getSuit()))) {
-                System.out.println("pick up flag is: " + BlackJackMain.isPickedUp());
                 if (BlackJackMain.isPickedUp()) {
                     BlackJackMain.setPickedUp(false);
                 } else {

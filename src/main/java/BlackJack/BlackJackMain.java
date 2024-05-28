@@ -103,18 +103,47 @@ public class BlackJackMain {
             List<String> resetCommands = chooseCardCommandRunner.resetCommands(cardStrings, playableCards);
             cardStringsArray = resetCommands.toArray(cardStrings.toArray(new String[0]));
 
-            chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
+            boolean userTurnSkipped = false;
 
-            if (!playableCards.isEmpty()) {
+            if (currentCard.getSymbol().equals("J") && !pickedUp && (currentCard.getSuit().equals("Spades") || currentCard.getSuit().equals("Clubs")) ) {
+                boolean containsJack = false;
+                for (Card card : playableCards) {
+                    if (card.getSymbol().equals("J")) {
+                        containsJack = true;
+                        break;
+                    }
+                }
+                if (!containsJack) {
+                    player.addCardsToHand(deck.dealCard(5));
+                     userTurnSkipped = true;
+
+                } if (currentCard.getSymbol().equals("2") && !pickedUp) {
+                    boolean containsTwo = false;
+                    for (Card card : playableCards) {
+                        if (card.getSymbol().equals("2")) {
+                            containsTwo = true;
+                            break;
+                        }
+                    }
+                    if (!containsTwo) {
+                        player.addCardsToHand(deck.dealCard(2));
+                        userTurnSkipped = true;
+                }
+            }
+                }
+
+
+
+            if (!playableCards.isEmpty() && !userTurnSkipped) {
                 System.out.println("\n You current hand: " + playerHand);
                 System.out.println("\nHint: ...you can play: " + playableCards);
+                chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
                 chooseCardCommandRunner.runCommands();
 
                 boolean userPickingFromDeck = chooseCardCommandRunner.isPickingACard();
                 int userChoice = chooseCardCommandRunner.getUserSelection() - 1;
 
                 if (userPickingFromDeck) {
-                    // change this to player take turn
                     player.addCardsToHand(deck.dealCard(1));
                     pickedUp = true;
                     currentCard = playingCard.get(playingCard.size() - 1);
@@ -162,7 +191,33 @@ public class BlackJackMain {
                     playingCard.addAll(cpuTwoPlayedCards);
                 }
             }
-        } while (!gameOver);
 
+            if (userTurnSkipped) {
+                currentCard = playingCard.get(playingCard.size() - 1);
+                List<Card> cpuOnePlayedCards = cpuOne.cpuTakeTurn(currentCard);
+                if (cpuOnePlayedCards != null ) {
+                    playingCard.addAll(cpuOnePlayedCards);
+                    currentCard = playingCard.get(playingCard.size() - 1);
+                }
+
+                List<Card> cpuTwoPlayedCards = cpuTwo.cpuTakeTurn(currentCard);
+                if (cpuTwoPlayedCards != null ) {
+                    playingCard.addAll(cpuTwoPlayedCards);
+
+                }
+            }
+
+            if (playerHand.isEmpty() || cpuOneHand.isEmpty() || cpuTwoHand.isEmpty()) {
+                gameOver = true;
+                if (playerHand.isEmpty()) {
+                    System.out.println("Congratulations, you managed to come out on top!");
+                } else {
+                    System.out.println("You hand: " + playerHand + "\n CPU One hand: " + cpuOneHand + "\n CPU Two hand: " + cpuTwoHand);
+                    System.out.println("Tough break, you were never gonna beat us anyways. Go outside, touch some grass");
+                }
+            }
+
+        } while (!gameOver);
     }
 }
+
