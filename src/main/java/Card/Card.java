@@ -7,7 +7,8 @@ public class Card {
 
     private String suit;
     private String symbol;
-    private int value ;
+    private int value;
+    private String visual;
 
     public Card(String suit, String symbol, int value) {
         this.suit = suit;
@@ -39,6 +40,14 @@ public class Card {
         this.value = value;
     }
 
+    public void setVisual(String visual) {
+        this.visual = visual;
+    }
+
+    public String getVisual() {
+        return visual;
+    }
+
     public static List<String> getAllSuits(){
         return Arrays.asList("Spades", "Clubs", "Hearts", "Diamonds");
     }
@@ -49,6 +58,6 @@ public class Card {
 
     @Override
     public String toString() {
-        return String.format(symbol + " of " + suit);
+        return visual;
     }
 }

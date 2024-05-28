@@ -138,8 +138,16 @@ public class BlackJackMain {
             }
 
             if (!playableCards.isEmpty() && !userTurnSkipped) {
-                System.out.println("\n You current hand: " + playerHand);
-                System.out.println("\nHint: ...you can play: " + playableCards);
+//                System.out.println("\n You current hand:" + playerHand);
+
+//                System.out.println("\nYour current hand:");
+//                for (Card card : playerHand) {
+//                    System.out.print(card.getVisual());
+//                }
+                System.out.println("Your current hand:\n\n");
+                player.printHandVisual(playerHand);
+
+                System.out.println("\nHint: ...you can play:   \n\n" + playableCards);
                 chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
                 chooseCardCommandRunner.runCommands();
 

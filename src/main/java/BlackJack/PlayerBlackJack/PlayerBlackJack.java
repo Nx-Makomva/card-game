@@ -59,4 +59,27 @@ public class PlayerBlackJack extends Player {
             currentHand.remove(playedCard);
         }
     }
+
+    public void printHandVisual(List<Card> hand) {
+        // Initialize StringBuilders for each line of the card representation
+        StringBuilder line1 = new StringBuilder();
+        StringBuilder line2 = new StringBuilder();
+        StringBuilder line3 = new StringBuilder();
+        StringBuilder line4 = new StringBuilder();
+
+        // Iterate over each card and append the respective lines
+        for (Card card : hand) {
+            String[] lines = card.getVisual().split("\n");
+            line1.append(lines[0]).append(" ");
+            line2.append(lines[1]).append("       ");
+            line3.append(lines[2]).append("      ");
+            line4.append(lines[3]).append("");
+        }
+
+        // Print each line of all cards in sequence
+        System.out.println(line1);
+        System.out.println(line2);
+        System.out.println(line3);
+        System.out.println(line4);
+    }
 }

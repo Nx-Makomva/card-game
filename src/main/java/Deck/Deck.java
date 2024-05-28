@@ -34,37 +34,31 @@ public class Deck {
             }
         }
     }
+
     private void printCardVisual(Card card) {
-        System.out.print("        _____      ");
-
-        System.out.println();
-
+        StringBuilder visualBuilder = new StringBuilder();
+        visualBuilder.append("        _____       \n"); // Top line of the card
         if (card.getSymbol().equals("10")) {
-            System.out.print("       |" + card.getSymbol() + "   |    ");
+            visualBuilder.append("       |").append(card.getSymbol()).append("  |\n");
         } else {
-            System.out.print("       |" + card.getSymbol() + "    |    ");
+            visualBuilder.append("       |").append(card.getSymbol()).append("    |\n");
         }
-
-        System.out.println();
-
         switch (card.getSuit()) {
             case "Clubs":
-                System.out.print("       |  ♣  |    ");
+                visualBuilder.append("       |  ♣  | \n"); // Suit line for Clubs
                 break;
             case "Diamonds":
-                System.out.print("       |  ♦  |    ");
+                visualBuilder.append("       |  ♦  | \n"); // Suit line for Diamonds
                 break;
             case "Hearts":
-                System.out.print("       |  ♥  |    ");
+                visualBuilder.append("       |  ♥  | \n"); // Suit line for Hearts
                 break;
             case "Spades":
-                System.out.print("       |  ♠  |    ");
+                visualBuilder.append("       |  ♠  | \n"); // Suit line for Spades
                 break;
         }
-
-        System.out.println();
-        System.out.print("       |____ |    ");
-        System.out.println();
+        visualBuilder.append("       |_____|       \n"); // Bottom line of the card
+        card.setVisual(visualBuilder.toString());
     }
 
 
