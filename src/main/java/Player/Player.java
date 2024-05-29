@@ -11,7 +11,6 @@ public class Player {
 
     // variables
     protected String playerName;
-    protected int wallet = 500;
     protected int playerScore;
     protected boolean isHuman;
     protected List<Card> currentHand;
@@ -35,14 +34,6 @@ public class Player {
 
     public void setName(String playerName) {
         this.playerName = playerName;
-    }
-
-    public int getWallet() {
-        return wallet;
-    }
-
-    public void setWallet(int wallet) {
-        this.wallet = wallet;
     }
 
     public List<Card> getCurrentHand() {
@@ -129,6 +120,4 @@ public class Player {
     public String toString() {
         return playerName;
     }
-
-
 }

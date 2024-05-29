@@ -42,12 +42,6 @@ public class BlackJackMain {
         String playerName = PlayerBlackJack.setPlayerName();
         PlayerBlackJack player = new PlayerBlackJack(playerName, true, deck);
         Instructions instructions = new Instructions(playerName);
-        WelcomeScreenCommands welcome = new WelcomeScreenCommands();
-        welcome.runCommands();
-
-        if (!welcome.shouldContinue()) {
-            return;
-        }
 
         instructions.showInstructions();
 
@@ -65,19 +59,6 @@ public class BlackJackMain {
         ComputerPlayerBlackJack cpuOne = new ComputerPlayerBlackJack(cpuOneHand, deck, "CPU One");
         ComputerPlayerBlackJack cpuTwo = new ComputerPlayerBlackJack(cpuTwoHand, deck, "CPU Two");
         player.setCurrentHand(playerHand);
-
-
-
-
-
-        // player should see picture cards eventually and not array of cards
-
-
-
-
-
-
-
 
         List<String> invalidCards = Arrays.asList("A", "K", "Q", "J", "2");
         List<Card> middleCard;
