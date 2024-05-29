@@ -29,7 +29,7 @@ public class ChooseCardCommandRunner extends CommandRunner {
             cardStrings.add(card.toString());
         }
         cardStrings.add("Pick up a card");
-        cardStrings.add(ColorUtils.GREEN);
+//        cardStrings.add(ColorUtils.GREEN);
 
         this.userPickUpCard = false;
         return cardStrings;

@@ -1,8 +1,5 @@
 package CommandRunner;
 
-import BlackJack.BlackJackMain;
-import PapazKimde.PapazKimde;
-
 public class ReplayGameCommandRunner extends CommandRunner {
 
     private static final String[] PLAY_AGAIN_COMMANDS = {

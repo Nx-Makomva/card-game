@@ -4,6 +4,7 @@ import BlackJack.Commands.ChooseCardCommandRunner;
 import BlackJack.Instructions.Instructions;
 import BlackJack.PlayerBlackJack.ComputerPlayerBlackJack;
 import BlackJack.PlayerBlackJack.PlayerBlackJack;
+import CommandRunner.ReplayGameCommandRunner;
 import CommandRunner.WelcomeScreenCommands;
 import Card.Card;
 import Deck.Deck;
@@ -79,6 +80,7 @@ public class BlackJackMain {
         ChooseCardCommandRunner chooseCardCommandRunner = new ChooseCardCommandRunner(cardStringsArray, "Picking a card", player);
 
         boolean userTurnSkipped;
+
         do {
             System.out.print("\nMiddle card: \n");
             System.out.println(currentCard = middleCard.get(middleCard.size() - 1));
@@ -122,7 +124,7 @@ public class BlackJackMain {
             if (!playableCards.isEmpty() && !userTurnSkipped) {
 
                 System.out.println("Your hand:");
-                player.printHandVisual(playerHand);
+                PlayerBlackJack.printHandVisual(playerHand);
 
                 chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
                 chooseCardCommandRunner.runCommands();
@@ -201,6 +203,9 @@ public class BlackJackMain {
                     System.out.println("You hand: " + playerHand + "\n CPU One hand: " + cpuOneHand + "\n CPU Two hand: " + cpuTwoHand);
                     System.out.println("Tough break, you were never gonna beat us anyways. Go outside, touch some grass");
                 }
+
+                ReplayGameCommandRunner replayGameCommandRunner = new ReplayGameCommandRunner();
+                replayGameCommandRunner.runCommands();
             }
         } while (!gameOver);
     }
