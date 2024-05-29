@@ -62,7 +62,6 @@ public class PapazKimde {
         this.gameDeck = playingDeck;
     }
 
-
     public void handleCreationOfUsers() {
         // player 1 is always a human
         System.out.println("Enter name for player 1:");
