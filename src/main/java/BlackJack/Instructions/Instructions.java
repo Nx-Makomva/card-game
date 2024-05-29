@@ -32,7 +32,7 @@ public class Instructions {
         System.out.println("Whenever you lay a queen, you must cover her with another card, but it can be any card.");
         System.out.println("The objective is to get rid of your cards ASAP");
         System.out.println();
-        System.out.println("Enjoy the game!\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        System.out.println("Enjoy the game!");
     }
 
     private void drawPlayingCards() {

@@ -62,7 +62,7 @@ public class PlayerBlackJack extends Player {
         }
     }
 
-    public void printHandVisual(List<Card> hand) {
+    public static void printHandVisual(List<Card> hand) {
 
         StringBuilder line1 = new StringBuilder();
         StringBuilder line2 = new StringBuilder();
