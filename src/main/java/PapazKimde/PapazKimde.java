@@ -103,10 +103,11 @@ public class PapazKimde {
 
             // Loop until a valid card index is provided by the user
             while (true) {
-                System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
-                System.out.println("You're pulling from " + targetPlayer.getName() + "'s deck. " +
+                System.out.println("Your current hand: \n" );
+                currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
+                System.out.println("\nYou're pulling from " + targetPlayer.getName() + "'s deck. " +
                         "They have " + targetPlayer.getCurrentHand().size() + " cards.");
-                System.out.println("Pick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
+                System.out.println("\nPick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
 
                 // Ensure the input is an integer
                 while (!scanner.hasNextInt()) {
@@ -125,7 +126,7 @@ public class PapazKimde {
             }
 
             pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
-            System.out.println("You've taken " + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
+            System.out.println("\nYou've taken " + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
         } else {
             try {
                 // Add a delay of, for example, 2 seconds (2000 milliseconds)
@@ -174,7 +175,8 @@ public class PapazKimde {
                 currentPlayer.addCardsToHand(List.of(pulledCard));
                 currentPlayer.pairRemoval();
                 if (currentPlayer.isHuman()){
-                    System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+                    System.out.println("Your current hand:");
+                    currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
                 }
 
 
