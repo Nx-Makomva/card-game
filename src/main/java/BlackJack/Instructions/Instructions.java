@@ -30,9 +30,12 @@ public class Instructions {
         System.out.println();
         System.out.println("And now for the final power card: the queen.");
         System.out.println("Whenever you lay a queen, you must cover her with another card, but it can be any card.");
-        System.out.println("The objective is to get rid of your cards ASAP");
+        System.out.println("The objective is to get rid of your cards ASAP.");
         System.out.println();
-        System.out.println("Enjoy the game!");
+        System.out.println("P.S: The computers rigged the game in favour of them, sorry... I don't make the rules.");
+        System.out.println("Every time they play a Q or A they get to play again, you do not have this privilege.");
+        System.out.println();
+        System.out.println("Have fun!");
     }
 
     private void drawPlayingCards() {
