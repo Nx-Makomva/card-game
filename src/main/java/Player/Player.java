@@ -16,6 +16,7 @@ public class Player {
     protected boolean isHuman;
     protected List<Card> currentHand;
 
+
     // constructors
     public Player(String playerName, boolean isHuman) {
         this.playerName = playerName;
@@ -70,13 +71,13 @@ public class Player {
         this.currentHand = cards;
     }
 
+
     public void addCardsToHand(List<Card> cards) {
         if (this.currentHand == null) {
             this.currentHand = new ArrayList<>();
         }
         this.currentHand.addAll(cards);
     }
-
     public void pairRemoval() {
         List<Card> cardsToRemove = new ArrayList<>();
         // using sets because do not want duplicates
