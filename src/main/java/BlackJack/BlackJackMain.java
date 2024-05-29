@@ -124,7 +124,7 @@ public class BlackJackMain {
             if (!playableCards.isEmpty() && !userTurnSkipped) {
 
                 System.out.println("Your hand:");
-                player.printHandVisual(playerHand);
+                PlayerBlackJack.printHandVisual(playerHand);
 
                 chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
                 chooseCardCommandRunner.runCommands();
