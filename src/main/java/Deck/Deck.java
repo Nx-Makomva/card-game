@@ -87,7 +87,7 @@ public class Deck {
     }
 
 
-        public List<Card> dealCard (int numberOfCards) {
+    public List<Card> dealCard(int numberOfCards) {
         List<Card> dealtCards = new ArrayList<>();
 
             for (int i = 0; i < numberOfCards; i++) {
@@ -105,6 +105,13 @@ public class Deck {
             return dealtCards;
         }
 
+    public List<Card> getDeckOfCards() {
+        return deckOfCards;
+    }
+
+    public void setDeckOfCards(List<Card> deckOfCards) {
+        this.deckOfCards = deckOfCards;
+    }
         public void sortDeck () {
         deckOfCards = deckOfCards.stream()
                 .sorted((a, b) -> a.getValue() - b.getValue())
