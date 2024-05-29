@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 
@@ -94,20 +95,50 @@ public class PapazKimde {
 
     public Card pullCardFromPlayer(Player currentPlayer, Player targetPlayer, boolean isHuman) {
         Random random = new Random();
-        Card pulledCard;
+        Card pulledCard = null;
 
         if (isHuman) {
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
-            System.out.println("You're pulling from " + targetPlayer.getName() + "'s deck. They have " + targetPlayer.getCurrentHand().size() + " cards.");
-            System.out.println("Pick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
-            int cardIndex = scanner.nextInt() - 1;
+            int cardIndex = -1; // Initialize cardIndex
+
+            // Loop until a valid card index is provided by the user
+            while (true) {
+                System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+                System.out.println("You're pulling from " + targetPlayer.getName() + "'s deck. " +
+                        "They have " + targetPlayer.getCurrentHand().size() + " cards.");
+                System.out.println("Pick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
+
+                // Ensure the input is an integer
+                while (!scanner.hasNextInt()) {
+                    System.out.println("Invalid input. Please enter a number between 1 and " + targetPlayer.getCurrentHand().size());
+                    scanner.next(); // Consume invalid input
+                }
+
+                cardIndex = scanner.nextInt() - 1; // Convert to zero-based index
+
+                // Check if the cardIndex is within valid range
+                if (cardIndex >= 0 && cardIndex < targetPlayer.getCurrentHand().size()) {
+                    break; // Exit the loop if the index is valid
+                } else {
+                    System.out.println("Invalid input. Please enter a number between 1 and " + targetPlayer.getCurrentHand().size());
+                }
+            }
+
             pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
             System.out.println("You've taken " + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
         } else {
-            int cardIndex = random.nextInt(targetPlayer.getCurrentHand().size());
-            pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
-            System.out.println(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName());
+            try {
+                // Add a delay of, for example, 2 seconds (2000 milliseconds)
+                TimeUnit.SECONDS.sleep(3);
+                // For computer players, randomly select a card from targetPlayer's hand
+                int cardIndex = random.nextInt(targetPlayer.getCurrentHand().size());
+                pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
+                System.out.println(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName());
+            } catch (InterruptedException e) {
+                // Handle the exception, if needed
+                e.printStackTrace();
+            }
+
         }
         return pulledCard;
     }
@@ -142,7 +173,10 @@ public class PapazKimde {
                 Card pulledCard = pullCardFromPlayer(currentPlayer, targetPlayer, currentPlayer.isHuman());
                 currentPlayer.addCardsToHand(List.of(pulledCard));
                 currentPlayer.pairRemoval();
-                System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+                if (currentPlayer.isHuman()){
+                    System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+                }
+
 
                 if (currentPlayer.getCurrentHand().isEmpty()) {
                     System.out.println(currentPlayer.getName() + " has finished their cards.");

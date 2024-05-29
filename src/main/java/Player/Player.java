@@ -115,20 +115,9 @@ public class Player {
             }
         }
         currentHand.removeAll(cardsToRemove);
-    }
-
-    public void cardPullFromOtherPlayer() {
-        // mimic player 1 pulling random card from player 2's deck -> ask for user input
-        // "choose a card from player x's deck"
-        // print the number of cards player x has ?
-
-    }
-
-    public void countScore() {
-        // might be a berna only method idk yet
-        // scoring: 2 player : winner = x points
-        // 2 or more : first x points, second x-5 etc etc..
-        // loser 0 points
+        if (cardsToRemove.size() == 2){
+            System.out.println("These cards have been removed from your deck: " + cardsToRemove);
+        }
     }
 
     public void updateScore() {
