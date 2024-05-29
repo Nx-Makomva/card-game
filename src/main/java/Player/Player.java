@@ -117,25 +117,28 @@ public class Player {
     }
 
     public void printHandVisual(List<Card> hand) {
-
         StringBuilder line1 = new StringBuilder();
         StringBuilder line2 = new StringBuilder();
         StringBuilder line3 = new StringBuilder();
         StringBuilder line4 = new StringBuilder();
 
+        String cardSeparator = "  "; // Two spaces between cards for better readability
+
         for (Card card : hand) {
             String[] lines = card.getVisual().split("\n");
-            line1.append(lines[0]).append(" ");
-            line2.append(lines[1]).append("       ");
-            line3.append(lines[2]).append("      ");
-            line4.append(lines[3]).append("");
+            line1.append(lines[0]).append(cardSeparator);
+            line2.append(lines[1]).append(cardSeparator);
+            line3.append(lines[2]).append(cardSeparator);
+            line4.append(lines[3]).append(cardSeparator);
         }
 
+        // Print each line
         System.out.println(line1);
         System.out.println(line2);
         System.out.println(line3);
         System.out.println(line4);
     }
+
 
     @Override
     public String toString() {
