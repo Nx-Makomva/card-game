@@ -14,6 +14,7 @@ public class Player {
     protected boolean isHuman;
     protected List<Card> currentHand;
 
+
     // constructors
     public Player(String playerName, boolean isHuman) {
         this.playerName = playerName;
@@ -21,6 +22,7 @@ public class Player {
         this.playerScore = 0; // initialise to 0
         this.currentHand = new ArrayList<>();
     }
+
     public Player() {
     }
 
@@ -59,12 +61,15 @@ public class Player {
         this.currentHand = cards;
     }
 
+
     public void addCardsToHand(List<Card> cards) {
-        if (this.currentHand == null) {
-            this.currentHand = new ArrayList<>();
+        if (currentHand == null) {
+            currentHand = new ArrayList<>();
         }
-        this.currentHand.addAll(cards);
+        currentHand.addAll(cards);
     }
+
+
     public void pairRemoval() {
         // each player needs to go through their cards and remove any pairs
         // go through each card in list, if there's match in list, then remove
@@ -93,6 +98,5 @@ public class Player {
     public String toString() {
         return playerName;
     }
-
 
 }

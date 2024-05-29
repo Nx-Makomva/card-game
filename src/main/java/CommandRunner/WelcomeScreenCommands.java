@@ -3,11 +3,14 @@ package CommandRunner;
 //import BlackJack.BlackJackMain;
 
 
+import BlackJack.BlackJackMain;
+import BlackJack.Instructions.Instructions;
+
 public class WelcomeScreenCommands extends CommandRunner {
 
     private static final String[] WELCOME_SCREEN_COMMANDS = {
-            "Play Game",
-            "Go back to 'Choose Game'", // allow them to go back to game selection
+            "Play Black Jack",
+            "Play Papaz Kimde", // allow them to go back to game selection
             "Quit"
     };
 
@@ -26,10 +29,16 @@ public class WelcomeScreenCommands extends CommandRunner {
         System.out.println("You've chosen to " + WELCOME_SCREEN_COMMANDS[userSelection - 1]);
         switch(userSelection){
             case 1:
-//                BlackJackMain.setGameOver(false);
+                // Play Game 1
+                BlackJackMain.setGameOver(false);
                 break;
             case 2:
+                // Play Game 2
 //                GameLoader.chooseGame();
         }
+    }
+
+    public boolean shouldContinue() {
+        return !BlackJackMain.isGameOver();
     }
 }

@@ -27,19 +27,21 @@ public void runCommands() {
 
 
 protected void intro() {
-    printMessage(String.format("\n How would you like to proceed with the %s\n", name));
+    printMessage(String.format("\n Please make a choice for %s\n", name));
 }
 
 
 protected abstract void handleUserSelection(int userSelection);
 
 protected int readUserInput(int limit) {
-    printMessage(String.format("Please enter a number between 1 and %d:", limit));
+
+        printMessage(String.format("Please enter a number between 1 and %d:", limit));
+
+    while (true) {
 
         String input = scanner.nextLine();
-
         if (QUIT.equalsIgnoreCase(input.trim())) {
-            return - 1;
+            return -1;
         }
 
         try {
@@ -51,11 +53,10 @@ protected int readUserInput(int limit) {
                 return userSelection;
             }
 
-        } catch (Exception e) {
+        } catch (NumberFormatException e) {
             printMessage("Please enter a number between 1 and " + limit);
         }
-
-        return - 1;
+    }
 }
 
 protected void printIndexedCommands() {
