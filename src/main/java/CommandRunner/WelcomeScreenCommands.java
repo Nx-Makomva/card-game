@@ -1,10 +1,6 @@
 package CommandRunner;
 
-//import BlackJack.BlackJackMain;
-
-
 import BlackJack.BlackJackMain;
-import BlackJack.Instructions.Instructions;
 import PapazKimde.PapazKimde;
 
 public class WelcomeScreenCommands extends CommandRunner {
@@ -23,7 +19,6 @@ public class WelcomeScreenCommands extends CommandRunner {
     protected void handleUserSelection(int userSelection) {
         if (userSelection == this.commands.length) {
             printMessage("\nBetter to quit whilst you're ahead! See you next time");
-//            BlackJackMain.setGameOver(true);
             return;
         }
 
@@ -31,6 +26,7 @@ public class WelcomeScreenCommands extends CommandRunner {
         switch(userSelection){
             case 1:
                 // Play Game 1
+                BlackJackMain.startGame();
                 BlackJackMain.setGameOver(false);
                 break;
             case 2:
@@ -39,9 +35,5 @@ public class WelcomeScreenCommands extends CommandRunner {
                 whoHasTheKing.playPapazKimde();
                 break;
         }
-    }
-
-    public boolean shouldContinue() {
-        return !BlackJackMain.isGameOver();
     }
 }

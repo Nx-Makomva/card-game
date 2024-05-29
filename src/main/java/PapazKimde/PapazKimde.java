@@ -1,5 +1,6 @@
 package PapazKimde;
 
+import CommandRunner.ReplayGameCommandRunner;
 import Deck.Deck;
 import Card.Card;
 import Player.Player;
@@ -187,9 +188,13 @@ public class PapazKimde {
                     gameInProgress = false;
                     System.out.println("Game Over! The final standings are:");
                     players.forEach(player -> System.out.println(player.getName() + " has " + player.getCurrentHand().size() + " cards left."));
+                    ReplayGameCommandRunner replayGameCommandRunner = new ReplayGameCommandRunner();
+                    replayGameCommandRunner.runCommands();
                     break;
                 }
             }
+
+
         }
 
         // potential classes:
