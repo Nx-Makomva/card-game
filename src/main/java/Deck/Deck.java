@@ -1,6 +1,7 @@
 package Deck;
 
 import Card.Card;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,29 +36,53 @@ public class Deck {
         }
     }
 
-    private void printCardVisual(Card card) {
+    public void printCardVisual(Card card) {
         StringBuilder visualBuilder = new StringBuilder();
-        visualBuilder.append("        _____       \n"); // Top line of the card
-        if (card.getSymbol().equals("10")) {
-            visualBuilder.append("       |").append(card.getSymbol()).append("  |\n");
-        } else {
-            visualBuilder.append("       |").append(card.getSymbol()).append("    |\n");
-        }
+        visualBuilder.append(ColorUtils.RESET);
         switch (card.getSuit()) {
             case "Clubs":
-                visualBuilder.append("       |  ♣  | \n"); // Suit line for Clubs
+            case "Spades":
+                visualBuilder.append(ColorUtils.colourise("        _____       \n", ColorUtils.BLUE));
                 break;
             case "Diamonds":
-                visualBuilder.append("       |  ♦  | \n"); // Suit line for Diamonds
-                break;
             case "Hearts":
-                visualBuilder.append("       |  ♥  | \n"); // Suit line for Hearts
-                break;
-            case "Spades":
-                visualBuilder.append("       |  ♠  | \n"); // Suit line for Spades
+                visualBuilder.append(ColorUtils.colourise("        _____       \n", ColorUtils.RED));
                 break;
         }
-        visualBuilder.append("       |_____|       \n"); // Bottom line of the card
+        if (card.getSymbol().equals("10")) {
+            if (card.getSuit().equals("Clubs") || card.getSuit().equals("Spades")) {
+                visualBuilder.append(ColorUtils.BLUE).append("       |").append(card.getSymbol()).append("   |\n");
+            } else {
+                visualBuilder.append(ColorUtils.RED).append("       |").append(card.getSymbol()).append("   |\n");
+            }
+        } else {
+            if (card.getSuit().equals("Clubs") || card.getSuit().equals("Spades")) {
+                visualBuilder.append(ColorUtils.BLUE).append("       |").append(card.getSymbol()).append("    |\n");
+            } else {
+                visualBuilder.append(ColorUtils.RED).append("       |").append(card.getSymbol()).append("    |\n");
+            }
+        }
+
+
+        switch (card.getSuit()) {
+            case "Clubs":
+                visualBuilder.append(ColorUtils.BLUE).append("       |  ♣  | \n");
+                visualBuilder.append(ColorUtils.BLUE).append("       |_____|       \n");
+                break;
+            case "Diamonds":
+                visualBuilder.append(ColorUtils.RED).append("       |  ♦  | \n");
+                visualBuilder.append(ColorUtils.RED).append("       |_____|       \n");
+                break;
+            case "Hearts":
+                visualBuilder.append(ColorUtils.RED).append("       |  ♥  | \n");
+                visualBuilder.append(ColorUtils.RED).append("       |_____|       \n");
+                break;
+            case "Spades":
+                visualBuilder.append(ColorUtils.BLUE).append("       |  ♠  | \n");
+                visualBuilder.append(ColorUtils.BLUE).append("       |_____|       \n");
+                break;
+        }
+        visualBuilder.append(ColorUtils.RESET);
         card.setVisual(visualBuilder.toString());
     }
 

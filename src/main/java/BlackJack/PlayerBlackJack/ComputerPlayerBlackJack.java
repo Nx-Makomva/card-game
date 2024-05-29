@@ -102,7 +102,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                 }
 
                 System.out.println(CPU_RESPONSES_PLAYING[randomIndexPlaying]);
-                System.out.println(NAME + " played: " + playedCards);
+                System.out.println(NAME + " played: \n" + playedCards);
                 BlackJackMain.setPickedUp(false);
 
             } else {

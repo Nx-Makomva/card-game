@@ -15,6 +15,7 @@ import java.util.List;
 
 public class BlackJackMain {
 
+
     private static boolean gameOver = true;
     private static boolean pickedUp = false;
 
@@ -98,7 +99,7 @@ public class BlackJackMain {
 
         boolean userTurnSkipped;
         do {
-            System.out.print("\nThe card in the middle is: \n");
+            System.out.print("\nMiddle card: \n");
             System.out.println(currentCard = middleCard.get(middleCard.size() - 1));
 
             playerHand = player.getCurrentHand();
@@ -138,16 +139,10 @@ public class BlackJackMain {
             }
 
             if (!playableCards.isEmpty() && !userTurnSkipped) {
-//                System.out.println("\n You current hand:" + playerHand);
 
-//                System.out.println("\nYour current hand:");
-//                for (Card card : playerHand) {
-//                    System.out.print(card.getVisual());
-//                }
-                System.out.println("Your current hand:\n\n");
+                System.out.println("Your hand:");
                 player.printHandVisual(playerHand);
 
-                System.out.println("\nHint: ...you can play:   \n\n" + playableCards);
                 chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
                 chooseCardCommandRunner.runCommands();
 

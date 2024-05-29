@@ -3,6 +3,7 @@ package BlackJack.Commands;
 import BlackJack.PlayerBlackJack.PlayerBlackJack;
 import Card.Card;
 import CommandRunner.CommandRunner;
+import Utils.ColorUtils;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public class ChooseCardCommandRunner extends CommandRunner {
     private String[] chooseCardCommands;
 
     public ChooseCardCommandRunner(String[] chooseCardCommands, String title, PlayerBlackJack currentPlayer) {
-        super(chooseCardCommands, "Picking a card");
+        super(chooseCardCommands, "playing a card");
         this.chooseCardCommands = chooseCardCommands;
     }
 
@@ -28,6 +29,7 @@ public class ChooseCardCommandRunner extends CommandRunner {
             cardStrings.add(card.toString());
         }
         cardStrings.add("Pick up a card");
+        cardStrings.add(ColorUtils.GREEN);
 
         this.userPickUpCard = false;
         return cardStrings;

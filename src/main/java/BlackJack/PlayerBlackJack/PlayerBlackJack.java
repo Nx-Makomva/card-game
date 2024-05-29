@@ -9,13 +9,14 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PlayerBlackJack extends Player {
-
+    Deck deck;
     protected Card userPlayedCard = null;
 
     public PlayerBlackJack (String playerName, boolean isHuman, Deck deck) {
         this.playerName = playerName;
         this.isHuman = isHuman;
         this.currentHand = new ArrayList<>();
+        this.deck = deck;
     }
 
     public Card getUserPlayedCard() {
@@ -35,8 +36,9 @@ public class PlayerBlackJack extends Player {
             currentHand = new ArrayList<>();
         }
         currentHand.addAll(cards);
-        System.out.println("You received: " + cards);
-        System.out.println("Your new hand is: " + currentHand);
+        System.out.println("You received: \n" + cards);
+        System.out.println("Your new hand is: \n");
+        printHandVisual(currentHand);
     }
 
     public List<Card> determinePlayableCards(List<Card> playerHand, Card currentCard) {
@@ -55,7 +57,7 @@ public class PlayerBlackJack extends Player {
         if (userChoice >= 0 && userChoice < playableCards.size()) {
             Card playedCard = playableCards.get(userChoice);
             userPlayedCard = playedCard;
-            System.out.println("\n" + playerName + " played: " + playedCard);
+            System.out.println("\n" + playerName + " played: \n" + playedCard);
             currentHand.remove(playedCard);
         }
     }
