@@ -5,6 +5,7 @@ package CommandRunner;
 
 import BlackJack.BlackJackMain;
 import BlackJack.Instructions.Instructions;
+import PapazKimde.PapazKimde;
 
 public class WelcomeScreenCommands extends CommandRunner {
 
@@ -34,7 +35,9 @@ public class WelcomeScreenCommands extends CommandRunner {
                 break;
             case 2:
                 // Play Game 2
-//                GameLoader.chooseGame();
+                PapazKimde whoHasTheKing = new PapazKimde();
+                whoHasTheKing.playPapazKimde();
+                break;
         }
     }
 

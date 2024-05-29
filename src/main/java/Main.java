@@ -1,12 +1,9 @@
-import BlackJack.BlackJackMain;
-import Deck.Deck;
-import PapazKimde.PapazKimde;
+import CommandRunner.WelcomeScreenCommands;
 
 public class Main {
 
     public static void main(String[] args) {
-        PapazKimde whoHasTheKing = new PapazKimde();
-        whoHasTheKing.playPapazKimde();
-        BlackJackMain.startGame();
+        WelcomeScreenCommands welcomeScreenCommands = new WelcomeScreenCommands();
+        welcomeScreenCommands.runCommands();
     }
 }
