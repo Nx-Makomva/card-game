@@ -4,6 +4,7 @@ import CommandRunner.ReplayGameCommandRunner;
 import Deck.Deck;
 import Card.Card;
 import Player.Player;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static Utils.ColorUtils.*;
 
 
 public class PapazKimde {
@@ -103,10 +106,11 @@ public class PapazKimde {
 
             // Loop until a valid card index is provided by the user
             while (true) {
+                System.out.println(ColorUtils.colourise(currentPlayer.getName() + "'s turn", CYAN));
                 System.out.println("Your current hand: \n" );
                 currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
-                System.out.println("\nYou're pulling from " + targetPlayer.getName() + "'s deck. " +
-                        "They have " + targetPlayer.getCurrentHand().size() + " cards.");
+                System.out.println(ColorUtils.colourise("\nYou're pulling from " + targetPlayer.getName() + "'s deck. " +
+                        "They have " + targetPlayer.getCurrentHand().size() + " cards.", PURPLE));
                 System.out.println("\nPick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
 
                 // Ensure the input is an integer
@@ -126,15 +130,16 @@ public class PapazKimde {
             }
 
             pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
-            System.out.println("\nYou've taken " + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
+            System.out.println("\nYou've taken \n" + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
         } else {
             try {
                 // Add a delay of, for example, 2 seconds (2000 milliseconds)
-                TimeUnit.SECONDS.sleep(3);
+                TimeUnit.SECONDS.sleep(4);
                 // For computer players, randomly select a card from targetPlayer's hand
+                System.out.println(colourise(currentPlayer.getName() + "'s turn: ", YELLOW));
                 int cardIndex = random.nextInt(targetPlayer.getCurrentHand().size());
                 pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
-                System.out.println(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName());
+                System.out.println(ColorUtils.colourise(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName(), YELLOW));
             } catch (InterruptedException e) {
                 // Handle the exception, if needed
                 e.printStackTrace();

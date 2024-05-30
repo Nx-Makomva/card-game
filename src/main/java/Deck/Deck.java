@@ -38,49 +38,49 @@ public class Deck {
     public void printCardVisual(Card card) {
         StringBuilder visualBuilder = new StringBuilder();
         visualBuilder.append(ColorUtils.RESET);
+        switch (card.getSuit()) {
+            case "Clubs":
+            case "Spades":
+                visualBuilder.append(ColorUtils.colourise("        _____       \n", ColorUtils.BLUE));
+                break;
+            case "Diamonds":
+            case "Hearts":
+                visualBuilder.append(ColorUtils.colourise("        _____       \n", ColorUtils.RED));
+                break;
+        }
+        if (card.getSymbol().equals("10")) {
+            if (card.getSuit().equals("Clubs") || card.getSuit().equals("Spades")) {
+                visualBuilder.append(ColorUtils.BLUE).append("       |").append(card.getSymbol()).append("   |\n");
+            } else {
+                visualBuilder.append(ColorUtils.RED).append("       |").append(card.getSymbol()).append("   |\n");
+            }
+        } else {
+            if (card.getSuit().equals("Clubs") || card.getSuit().equals("Spades")) {
+                visualBuilder.append(ColorUtils.BLUE).append("       |").append(card.getSymbol()).append("    |\n");
+            } else {
+                visualBuilder.append(ColorUtils.RED).append("       |").append(card.getSymbol()).append("    |\n");
+            }
+        }
 
-        // Define card dimensions
-        String topBorder = " _____ ";
-        String bottomBorder = "|_____|";
-        String suitSymbol = "";
-        String colorCode = "";
 
         switch (card.getSuit()) {
             case "Clubs":
-                suitSymbol = "♣";
-                colorCode = ColorUtils.BLUE;
+                visualBuilder.append(ColorUtils.BLUE).append("       |  ♣  | \n");
+                visualBuilder.append(ColorUtils.BLUE).append("       |_____|       \n");
                 break;
             case "Diamonds":
-                suitSymbol = "♦";
-                colorCode = ColorUtils.RED;
+                visualBuilder.append(ColorUtils.RED).append("       |  ♦  | \n");
+                visualBuilder.append(ColorUtils.RED).append("       |_____|       \n");
                 break;
             case "Hearts":
-                suitSymbol = "♥";
-                colorCode = ColorUtils.RED;
+                visualBuilder.append(ColorUtils.RED).append("       |  ♥  | \n");
+                visualBuilder.append(ColorUtils.RED).append("       |_____|       \n");
                 break;
             case "Spades":
-                suitSymbol = "♠";
-                colorCode = ColorUtils.BLUE;
+                visualBuilder.append(ColorUtils.BLUE).append("       |  ♠  | \n");
+                visualBuilder.append(ColorUtils.BLUE).append("       |_____|       \n");
                 break;
         }
-
-        visualBuilder.append(ColorUtils.colourise(topBorder, colorCode)).append("\n");
-
-        // Symbol line with proper spacing
-        String symbol = card.getSymbol();
-        String symbolLine = "|" + symbol;
-        if (symbol.equals("10")) {
-            symbolLine += "   |";
-        } else {
-            symbolLine += "    |";
-        }
-        visualBuilder.append(ColorUtils.colourise(symbolLine, colorCode)).append("\n");
-
-        // Suit line and bottom border
-        String suitLine = "|  " + suitSymbol + "  |";
-        visualBuilder.append(ColorUtils.colourise(suitLine, colorCode)).append("\n");
-        visualBuilder.append(ColorUtils.colourise(bottomBorder, colorCode)).append("\n");
-
         visualBuilder.append(ColorUtils.RESET);
         card.setVisual(visualBuilder.toString());
     }

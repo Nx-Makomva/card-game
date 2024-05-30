@@ -1,11 +1,14 @@
 package Player;
 
 import Card.Card;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import static Utils.ColorUtils.RESET;
 
 public class Player {
 
@@ -108,31 +111,28 @@ public class Player {
         }
         currentHand.removeAll(cardsToRemove);
         if (cardsToRemove.size() == 2){
-            System.out.println("These cards have been removed from your deck: " + cardsToRemove);
+            System.out.println("These cards have been removed from " + playerName + "'s deck: " );
+            printHandVisual(cardsToRemove);
+            System.out.println(ColorUtils.colourise("-----------------------------------------------------------------\n", RESET));
         }
     }
 
-    public void updateScore() {
-        // something to set the score? or update score for the player?
-    }
 
     public void printHandVisual(List<Card> hand) {
+
         StringBuilder line1 = new StringBuilder();
         StringBuilder line2 = new StringBuilder();
         StringBuilder line3 = new StringBuilder();
         StringBuilder line4 = new StringBuilder();
 
-        String cardSeparator = "  "; // Two spaces between cards for better readability
-
         for (Card card : hand) {
             String[] lines = card.getVisual().split("\n");
-            line1.append(lines[0]).append(cardSeparator);
-            line2.append(lines[1]).append(cardSeparator);
-            line3.append(lines[2]).append(cardSeparator);
-            line4.append(lines[3]).append(cardSeparator);
+            line1.append(lines[0]).append(" ");
+            line2.append(lines[1]).append("       ");
+            line3.append(lines[2]).append("      ");
+            line4.append(lines[3]).append("");
         }
 
-        // Print each line
         System.out.println(line1);
         System.out.println(line2);
         System.out.println(line3);
