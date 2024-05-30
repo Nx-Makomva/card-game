@@ -4,6 +4,7 @@ import CommandRunner.ReplayGameCommandRunner;
 import Deck.Deck;
 import Card.Card;
 import Player.Player;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+
+import static Utils.ColorUtils.*;
 
 
 public class PapazKimde {
@@ -22,18 +25,21 @@ public class PapazKimde {
     private Deck gameDeck;
     private UserInteraction userInteraction;
     private List<Player> players;
+    private List<String> finishedOrder;
 
     public PapazKimde(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         this.gameDeck = new Deck();
         this.userInteraction = new UserInteraction();
         this.players = new ArrayList<>();
+        this.finishedOrder = new ArrayList<>();
     }
 
     public PapazKimde() {
         this.gameDeck = new Deck();
         this.userInteraction = new UserInteraction();
         this.players = new ArrayList<>();
+        this.finishedOrder = new ArrayList<>();
     }
 
     public void remove3Kings() {
@@ -99,50 +105,53 @@ public class PapazKimde {
 
         if (isHuman) {
             Scanner scanner = new Scanner(System.in);
-            int cardIndex = -1; // Initialize cardIndex
+            int cardIndex = -1; // initialize cardIndex
 
-            // Loop until a valid card index is provided by the user
+            // loop until a valid card index is provided by the user
             while (true) {
-                System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
-                System.out.println("You're pulling from " + targetPlayer.getName() + "'s deck. " +
-                        "They have " + targetPlayer.getCurrentHand().size() + " cards.");
-                System.out.println("Pick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
+                System.out.println("\n\n\n\n\n\n");
+                System.out.println(ColorUtils.colourise(currentPlayer.getName() + "'s turn", CYAN));
+                System.out.println("Your current hand: \n");
+                currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
+                System.out.println(ColorUtils.colourise("\nYou're pulling from " + targetPlayer.getName() + "'s deck. " +
+                        "They have " + targetPlayer.getCurrentHand().size() + " cards.", PURPLE));
+                System.out.println("\nPick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
 
-                // Ensure the input is an integer
+                // ensure the input is an integer
                 while (!scanner.hasNextInt()) {
                     System.out.println("Invalid input. Please enter a number between 1 and " + targetPlayer.getCurrentHand().size());
-                    scanner.next(); // Consume invalid input
+                    scanner.next(); // consume invalid input
                 }
 
-                cardIndex = scanner.nextInt() - 1; // Convert to zero-based index
+                cardIndex = scanner.nextInt() - 1; // convert to zero-based index
 
-                // Check if the cardIndex is within valid range
+                // check if the cardIndex is within valid range
                 if (cardIndex >= 0 && cardIndex < targetPlayer.getCurrentHand().size()) {
-                    break; // Exit the loop if the index is valid
+                    break; // exit the loop if the index is valid
                 } else {
                     System.out.println("Invalid input. Please enter a number between 1 and " + targetPlayer.getCurrentHand().size());
                 }
             }
 
             pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
-            System.out.println("You've taken " + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
+            System.out.println("\nYou've taken \n" + pulledCard + " from " + targetPlayer.getName() + "'s deck.");
         } else {
             try {
                 // Add a delay of, for example, 2 seconds (2000 milliseconds)
-                TimeUnit.SECONDS.sleep(3);
+                System.out.println(currentPlayer.getName() + " is thinking...");
+                TimeUnit.SECONDS.sleep(2);
                 // For computer players, randomly select a card from targetPlayer's hand
+                System.out.println(colourise(currentPlayer.getName() + "'s turn: ", YELLOW));
                 int cardIndex = random.nextInt(targetPlayer.getCurrentHand().size());
                 pulledCard = targetPlayer.getCurrentHand().remove(cardIndex);
-                System.out.println(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName());
+                System.out.println(ColorUtils.colourise(currentPlayer.getName() + " pulled a card from " + targetPlayer.getName(), YELLOW));
             } catch (InterruptedException e) {
                 // Handle the exception, if needed
                 e.printStackTrace();
             }
-
         }
         return pulledCard;
     }
-
 
     public void playPapazKimde() {
         remove3Kings();
@@ -173,37 +182,37 @@ public class PapazKimde {
                 Card pulledCard = pullCardFromPlayer(currentPlayer, targetPlayer, currentPlayer.isHuman());
                 currentPlayer.addCardsToHand(List.of(pulledCard));
                 currentPlayer.pairRemoval();
-                if (currentPlayer.isHuman()){
-                    System.out.println("Your current hand: " + currentPlayer.getCurrentHand());
+                if (currentPlayer.isHuman()) {
+                    System.out.println("Your current hand:");
+                    currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
                 }
-
 
                 if (currentPlayer.getCurrentHand().isEmpty()) {
                     System.out.println(currentPlayer.getName() + " has finished their cards.");
+                    finishedOrder.add(currentPlayer.getName());
                 }
 
-                // Check if the game should continue
+                // check if the game should continue
                 long activePlayers = players.stream().filter(p -> !p.getCurrentHand().isEmpty()).count();
                 if (activePlayers <= 1) {
                     gameInProgress = false;
                     System.out.println("Game Over! The final standings are:");
-                    players.forEach(player -> System.out.println(player.getName() + " has " + player.getCurrentHand().size() + " cards left."));
+                    for (int rank = 0; rank < finishedOrder.size(); rank++) {
+                        System.out.println((rank + 1) + ": " + finishedOrder.get(rank));
+                    }
+                    players.stream()
+                            .filter(player -> !player.getCurrentHand().isEmpty())
+                            .forEach(player -> System.out.println("Remaining player: " + player.getName() + " with " + player.getCurrentHand().size() + " card left."));
                     ReplayGameCommandRunner replayGameCommandRunner = new ReplayGameCommandRunner();
                     replayGameCommandRunner.runCommands();
-                    break;
+                    return;
+                }
+                // ask the player to pass to the next player if the game is still in progress
+                if (currentPlayer.isHuman()) {
+                    System.out.println(ColorUtils.colourise("Press Enter to pass to the next player...", PURPLE));
+                    new Scanner(System.in).nextLine();
                 }
             }
-
-
         }
-
-        // potential classes:
-
-        // game play/run through
-        // userinteraction
-        // userdisplay
-        // user as computer ? -> or always have player 2, and if no player is entered, then default to computer
-        // same for extra players -> if you want more players, you can add, if no information is given, default to computer
-        // should define maximum number of players
     }
 }
