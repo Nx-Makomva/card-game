@@ -7,12 +7,12 @@ public class WelcomeScreenCommands extends CommandRunner {
 
     private static final String[] WELCOME_SCREEN_COMMANDS = {
             "Play Black Jack",
-            "Play Papaz Kimde", // allow them to go back to game selection
+            "Play Papaz Kimde",
             "Quit"
     };
 
     public WelcomeScreenCommands() {
-        super(WELCOME_SCREEN_COMMANDS, "Introduction");
+        super(WELCOME_SCREEN_COMMANDS, "the Game Menu");
     }
 
     @Override
@@ -25,12 +25,10 @@ public class WelcomeScreenCommands extends CommandRunner {
         System.out.println("You've chosen to " + WELCOME_SCREEN_COMMANDS[userSelection - 1]);
         switch(userSelection){
             case 1:
-                // Play Game 1
-                BlackJackMain.startGame();
                 BlackJackMain.setGameOver(false);
+                BlackJackMain.startGame();
                 break;
             case 2:
-                // Play Game 2
                 PapazKimde whoHasTheKing = new PapazKimde();
                 whoHasTheKing.playPapazKimde();
                 break;

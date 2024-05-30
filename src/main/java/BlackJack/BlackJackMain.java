@@ -4,9 +4,11 @@ import BlackJack.Commands.ChooseCardCommandRunner;
 import BlackJack.Instructions.Instructions;
 import BlackJack.PlayerBlackJack.ComputerPlayerBlackJack;
 import BlackJack.PlayerBlackJack.PlayerBlackJack;
+import CommandRunner.ReplayGameCommandRunner;
 import CommandRunner.WelcomeScreenCommands;
 import Card.Card;
 import Deck.Deck;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -79,8 +81,9 @@ public class BlackJackMain {
         ChooseCardCommandRunner chooseCardCommandRunner = new ChooseCardCommandRunner(cardStringsArray, "Picking a card", player);
 
         boolean userTurnSkipped;
+
         do {
-            System.out.print("\nMiddle card: \n");
+            System.out.print(ColorUtils.WHITE + "\nMiddle card: \n");
             System.out.println(currentCard = middleCard.get(middleCard.size() - 1));
 
             playerHand = player.getCurrentHand();
@@ -122,7 +125,7 @@ public class BlackJackMain {
             if (!playableCards.isEmpty() && !userTurnSkipped) {
 
                 System.out.println("Your hand:");
-                player.printHandVisual(playerHand);
+                PlayerBlackJack.printHandVisual(playerHand);
 
                 chooseCardCommandRunner.setChooseCardCommands(cardStringsArray);
                 chooseCardCommandRunner.runCommands();
@@ -163,7 +166,7 @@ public class BlackJackMain {
                 }
             } else {
                 if (!userTurnSkipped) {
-                System.out.println("\nIt's your turn but you can't play anything, you'll have to pick up a card");
+                System.out.println(ColorUtils.GREEN + "\nIt's your turn but you can't play anything, you'll have to pick up a card");
                 player.addCardsToHand(deck.dealCard(1));
                 pickedUp = true;
                 currentCard = middleCard.get(middleCard.size() - 1);
@@ -196,11 +199,19 @@ public class BlackJackMain {
             if (playerHand.isEmpty() || cpuOneHand.isEmpty() || cpuTwoHand.isEmpty()) {
                 gameOver = true;
                 if (playerHand.isEmpty()) {
-                    System.out.println("Congratulations, you managed to come out on top!");
+                    System.out.println(ColorUtils.PURPLE + "Congratulations, you managed to come out on top!");
                 } else {
-                    System.out.println("You hand: " + playerHand + "\n CPU One hand: " + cpuOneHand + "\n CPU Two hand: " + cpuTwoHand);
-                    System.out.println("Tough break, you were never gonna beat us anyways. Go outside, touch some grass");
+                    System.out.println(ColorUtils.WHITE + "You hand:");
+                    PlayerBlackJack.printHandVisual(playerHand);
+                    System.out.println("CPU One hand:");
+                    PlayerBlackJack.printHandVisual(cpuOneHand);
+                    System.out.println("CPU Two hand:");
+                    PlayerBlackJack.printHandVisual(cpuTwoHand);
+                    System.out.println(ColorUtils.ORANGE + "Tough break, you were never gonna beat us anyways. Go outside, touch some grass");
                 }
+
+                ReplayGameCommandRunner replayGameCommandRunner = new ReplayGameCommandRunner();
+                replayGameCommandRunner.runCommands();
             }
         } while (!gameOver);
     }

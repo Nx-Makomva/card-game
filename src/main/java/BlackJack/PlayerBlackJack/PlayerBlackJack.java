@@ -3,6 +3,7 @@ package BlackJack.PlayerBlackJack;
 import Card.Card;
 import Deck.Deck;
 import Player.Player;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,8 +37,9 @@ public class PlayerBlackJack extends Player {
             currentHand = new ArrayList<>();
         }
         currentHand.addAll(cards);
-        System.out.println("You received: \n" + cards);
-        System.out.println("Your new hand is: \n");
+        System.out.println("You received: \n");
+        printHandVisual(cards);
+        System.out.println(ColorUtils.WHITE + "\nYour new hand is: \n");
         printHandVisual(currentHand);
     }
 
@@ -62,7 +64,7 @@ public class PlayerBlackJack extends Player {
         }
     }
 
-    public void printHandVisual(List<Card> hand) {
+    public static void printHandVisual(List<Card> hand) {
 
         StringBuilder line1 = new StringBuilder();
         StringBuilder line2 = new StringBuilder();
