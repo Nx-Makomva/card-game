@@ -105,9 +105,9 @@ public class PapazKimde {
 
         if (isHuman) {
             Scanner scanner = new Scanner(System.in);
-            int cardIndex = -1; // Initialize cardIndex
+            int cardIndex = -1; // initialize cardIndex
 
-            // Loop until a valid card index is provided by the user
+            // loop until a valid card index is provided by the user
             while (true) {
                 System.out.println("\n\n\n\n\n\n");
                 System.out.println(ColorUtils.colourise(currentPlayer.getName() + "'s turn", CYAN));
@@ -117,17 +117,17 @@ public class PapazKimde {
                         "They have " + targetPlayer.getCurrentHand().size() + " cards.", PURPLE));
                 System.out.println("\nPick a number from 1 to " + targetPlayer.getCurrentHand().size() + " to choose a card");
 
-                // Ensure the input is an integer
+                // ensure the input is an integer
                 while (!scanner.hasNextInt()) {
                     System.out.println("Invalid input. Please enter a number between 1 and " + targetPlayer.getCurrentHand().size());
-                    scanner.next(); // Consume invalid input
+                    scanner.next(); // consume invalid input
                 }
 
-                cardIndex = scanner.nextInt() - 1; // Convert to zero-based index
+                cardIndex = scanner.nextInt() - 1; // convert to zero-based index
 
-                // Check if the cardIndex is within valid range
+                // check if the cardIndex is within valid range
                 if (cardIndex >= 0 && cardIndex < targetPlayer.getCurrentHand().size()) {
-                    break; // Exit the loop if the index is valid
+                    break; // exit the loop if the index is valid
                 } else {
                     System.out.println("Invalid input. Please enter a number between 1 and " + targetPlayer.getCurrentHand().size());
                 }
@@ -152,7 +152,6 @@ public class PapazKimde {
         }
         return pulledCard;
     }
-
 
     public void playPapazKimde() {
         remove3Kings();
@@ -193,7 +192,7 @@ public class PapazKimde {
                     finishedOrder.add(currentPlayer.getName());
                 }
 
-                // Check if the game should continue
+                // check if the game should continue
                 long activePlayers = players.stream().filter(p -> !p.getCurrentHand().isEmpty()).count();
                 if (activePlayers <= 1) {
                     gameInProgress = false;
@@ -208,7 +207,7 @@ public class PapazKimde {
                     replayGameCommandRunner.runCommands();
                     return;
                 }
-                // Ask the player to pass to the next player if the game is still in progress
+                // ask the player to pass to the next player if the game is still in progress
                 if (currentPlayer.isHuman()) {
                     System.out.println(ColorUtils.colourise("Press Enter to pass to the next player...", PURPLE));
                     new Scanner(System.in).nextLine();
