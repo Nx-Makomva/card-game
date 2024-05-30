@@ -1,5 +1,7 @@
 package CommandRunner;
 
+import Utils.ColorUtils;
+
 import java.util.Scanner;
 
 public abstract class CommandRunner {
@@ -27,7 +29,7 @@ public void runCommands() {
 
 
 protected void intro() {
-    printMessage(String.format("\n Please make a choice for %s\n", name));
+    printMessage(String.format(ColorUtils.WHITE + "\n Please make a choice for %s\n", name));
 }
 
 

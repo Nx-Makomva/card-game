@@ -4,6 +4,7 @@ import BlackJack.BlackJackMain;
 import Card.Card;
 import Deck.Deck;
 import Player.ComputerPlayer;
+import Utils.ColorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
             if (deck == null) {
                 throw new IllegalStateException("Deck is not initialized");
             }
-
+            endTurnEarly = false;
             playedCards.clear();
             String cardSymbol = currentCard.getSymbol();
             String cardSuit = currentCard.getSuit();
@@ -90,7 +91,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
             int randomIndexPlaying = ThreadLocalRandom.current().nextInt(CPU_RESPONSES_PLAYING.length);
 
             if (!playableCards.isEmpty()) {
-                System.out.println("\n " + NAME + " is thinking...");
+                System.out.println(ColorUtils.ORANGE + "\n " + NAME + " is thinking...");
                 int randomCardIndex = ThreadLocalRandom.current().nextInt(playableCards.size());
                 cpuPlayedCard = playableCards.get(randomCardIndex);
                 currentHand.remove(cpuPlayedCard);
@@ -102,12 +103,12 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                 }
 
                 System.out.println(CPU_RESPONSES_PLAYING[randomIndexPlaying]);
-                System.out.println(NAME + " played: \n");
+                System.out.println(ColorUtils.ORANGE + NAME + " played: \n");
                 PlayerBlackJack.printHandVisual(playedCards);
                 BlackJackMain.setPickedUp(false);
 
             } else {
-                System.out.println("\n " + NAME + " is thinking...");
+                System.out.println(ColorUtils.ORANGE + "\n " + NAME + " is thinking...");
                 handlePowerCard(playedCards, currentCard);
 
                 if (endTurnEarly) {
@@ -117,7 +118,7 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
 
                 System.out.println(NAME + ": " + CPU_RESPONSES_PICKING[randomIndexPicking]);
                 addCardsToHand(PICKUP_CARD);
-                System.out.println(NAME + " picked up a card.");
+                System.out.println(ColorUtils.ORANGE + NAME + " picked up a card.");
             }
 
             try {
