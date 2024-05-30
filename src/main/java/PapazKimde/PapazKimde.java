@@ -106,6 +106,7 @@ public class PapazKimde {
 
             // Loop until a valid card index is provided by the user
             while (true) {
+                System.out.println("\n\n\n\n\n\n" );
                 System.out.println(ColorUtils.colourise(currentPlayer.getName() + "'s turn", CYAN));
                 System.out.println("Your current hand: \n" );
                 currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
@@ -144,7 +145,6 @@ public class PapazKimde {
                 // Handle the exception, if needed
                 e.printStackTrace();
             }
-
         }
         return pulledCard;
     }
@@ -182,6 +182,9 @@ public class PapazKimde {
                 if (currentPlayer.isHuman()){
                     System.out.println("Your current hand:");
                     currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
+                    System.out.println("Press enter to pass the turn to the next player.");
+                    Scanner scanner = new Scanner(System.in);
+                    scanner.nextLine();
                 }
 
 
