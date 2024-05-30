@@ -138,7 +138,8 @@ public class PapazKimde {
         } else {
             try {
                 // Add a delay of, for example, 2 seconds (2000 milliseconds)
-                TimeUnit.SECONDS.sleep(4);
+                System.out.println( currentPlayer.getName() + " is thinking...");
+                TimeUnit.SECONDS.sleep(2);
                 // For computer players, randomly select a card from targetPlayer's hand
                 System.out.println(colourise(currentPlayer.getName() + "'s turn: ", YELLOW));
                 int cardIndex = random.nextInt(targetPlayer.getCurrentHand().size());
@@ -209,14 +210,8 @@ public class PapazKimde {
                 }
                 // Ask the player to pass to the next player if the game is still in progress
                 if (currentPlayer.isHuman()) {
-                    System.out.println("Press Enter to pass to the next player...");
+                    System.out.println(ColorUtils.colourise("Press Enter to pass to the next player...", PURPLE));
                     new Scanner(System.in).nextLine();
-                } else {
-                    try {
-                        TimeUnit.SECONDS.sleep(2); // Delay for computer players
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
                 }
             }
         }
