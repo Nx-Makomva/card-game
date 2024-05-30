@@ -138,7 +138,7 @@ public class PapazKimde {
         } else {
             try {
                 // Add a delay of, for example, 2 seconds (2000 milliseconds)
-                System.out.println( currentPlayer.getName() + " is thinking...");
+                System.out.println(currentPlayer.getName() + " is thinking...");
                 TimeUnit.SECONDS.sleep(2);
                 // For computer players, randomly select a card from targetPlayer's hand
                 System.out.println(colourise(currentPlayer.getName() + "'s turn: ", YELLOW));
