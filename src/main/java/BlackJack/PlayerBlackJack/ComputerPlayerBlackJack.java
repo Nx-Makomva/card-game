@@ -102,16 +102,6 @@ public class ComputerPlayerBlackJack extends ComputerPlayer {
                     return null;
                 }
 
-
-
-                // FIX THE DAMN RULES!!!!!!!!!!!!!!
-
-
-
-
-
-
-
                 System.out.println(CPU_RESPONSES_PLAYING[randomIndexPlaying]);
                 System.out.println(ColorUtils.ORANGE + NAME + " played: \n");
                 PlayerBlackJack.printHandVisual(playedCards);
