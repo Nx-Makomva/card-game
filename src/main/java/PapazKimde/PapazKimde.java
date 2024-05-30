@@ -25,18 +25,21 @@ public class PapazKimde {
     private Deck gameDeck;
     private UserInteraction userInteraction;
     private List<Player> players;
+    private List<String> finishedOrder;
 
     public PapazKimde(int numberOfPlayers) {
         this.numberOfPlayers = numberOfPlayers;
         this.gameDeck = new Deck();
         this.userInteraction = new UserInteraction();
         this.players = new ArrayList<>();
+        this.finishedOrder = new ArrayList<>();
     }
 
     public PapazKimde() {
         this.gameDeck = new Deck();
         this.userInteraction = new UserInteraction();
         this.players = new ArrayList<>();
+        this.finishedOrder = new ArrayList<>();
     }
 
     public void remove3Kings() {
@@ -106,9 +109,9 @@ public class PapazKimde {
 
             // Loop until a valid card index is provided by the user
             while (true) {
-                System.out.println("\n\n\n\n\n\n" );
+                System.out.println("\n\n\n\n\n\n");
                 System.out.println(ColorUtils.colourise(currentPlayer.getName() + "'s turn", CYAN));
-                System.out.println("Your current hand: \n" );
+                System.out.println("Your current hand: \n");
                 currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
                 System.out.println(ColorUtils.colourise("\nYou're pulling from " + targetPlayer.getName() + "'s deck. " +
                         "They have " + targetPlayer.getCurrentHand().size() + " cards.", PURPLE));
@@ -179,17 +182,14 @@ public class PapazKimde {
                 Card pulledCard = pullCardFromPlayer(currentPlayer, targetPlayer, currentPlayer.isHuman());
                 currentPlayer.addCardsToHand(List.of(pulledCard));
                 currentPlayer.pairRemoval();
-                if (currentPlayer.isHuman()){
+                if (currentPlayer.isHuman()) {
                     System.out.println("Your current hand:");
                     currentPlayer.printHandVisual(currentPlayer.getCurrentHand());
-                    System.out.println("Press enter to pass the turn to the next player.");
-                    Scanner scanner = new Scanner(System.in);
-                    scanner.nextLine();
                 }
-
 
                 if (currentPlayer.getCurrentHand().isEmpty()) {
                     System.out.println(currentPlayer.getName() + " has finished their cards.");
+                    finishedOrder.add(currentPlayer.getName());
                 }
 
                 // Check if the game should continue
@@ -197,23 +197,28 @@ public class PapazKimde {
                 if (activePlayers <= 1) {
                     gameInProgress = false;
                     System.out.println("Game Over! The final standings are:");
-                    players.forEach(player -> System.out.println(player.getName() + " has " + player.getCurrentHand().size() + " cards left."));
+                    for (int rank = 0; rank < finishedOrder.size(); rank++) {
+                        System.out.println((rank + 1) + ": " + finishedOrder.get(rank));
+                    }
+                    players.stream()
+                            .filter(player -> !player.getCurrentHand().isEmpty())
+                            .forEach(player -> System.out.println("Remaining player: " + player.getName() + " with " + player.getCurrentHand().size() + " card left."));
                     ReplayGameCommandRunner replayGameCommandRunner = new ReplayGameCommandRunner();
                     replayGameCommandRunner.runCommands();
-                    break;
+                    return;
+                }
+                // Ask the player to pass to the next player if the game is still in progress
+                if (currentPlayer.isHuman()) {
+                    System.out.println("Press Enter to pass to the next player...");
+                    new Scanner(System.in).nextLine();
+                } else {
+                    try {
+                        TimeUnit.SECONDS.sleep(2); // Delay for computer players
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
-
-
         }
-
-        // potential classes:
-
-        // game play/run through
-        // userinteraction
-        // userdisplay
-        // user as computer ? -> or always have player 2, and if no player is entered, then default to computer
-        // same for extra players -> if you want more players, you can add, if no information is given, default to computer
-        // should define maximum number of players
     }
 }
